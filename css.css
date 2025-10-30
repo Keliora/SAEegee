@@ -1,0 +1,723 @@
+/* Base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Franklin Gothic Heavy', Arial, sans-serif;
+}
+
+
+/*On développe en Mobile-first (<390px) */
+
+/* Début du css de la nav bar */
+
+.header, body{
+    flex:1;
+}
+
+.header{
+    background: #fff;
+    padding: 0 8px 0 8px;
+    width: 100%;
+}
+
+.header_container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 10px 0 8px 8px;
+    gap: 12px;
+    background: #fff;
+}
+
+.logo_EGEE {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.logo {
+    height: 44px;
+}
+
+.barre_nav {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    padding : 50px 0 0 0
+}
+
+.barre_nav a {
+    width: 100%;
+    text-align: center;
+    white-space: nowrap;
+    padding: 10px 18px;
+    font-size: 1.05rem;
+    border-radius: 16px;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-weight: bold;
+    color: #294caf;
+}
+.barre_nav a.active {
+    background: #2845B0;
+    color: #fff;
+}
+.barre_nav a.actif {
+    background: #899CDF;
+    color: #fff;
+}
+
+.barre_nav a:hover {
+    background: #294caf;
+    color: #fff;
+}
+
+/* Début du css des actions (recherche + changement de thèmes) */
+.header_actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.recherche_site {
+    display: flex;
+    background: #f3f6fb;
+    overflow: hidden;
+    max-width: 100px;
+    flex: 1;
+}
+
+.recherche_site input {
+    background: transparent;
+    padding: 7px 9px;
+    font-size: 1rem;
+    max-width : 60px;
+}
+
+.recherche_site button {
+    background: #294caf;
+    color: #fff;
+    padding: 5px 5px;
+    font-size: 1.05rem;
+    cursor: pointer;
+}
+
+.changement_theme {
+    font-size: 1.25rem;
+    color: #15ace6;
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+/* Fin du css des actions (recherche + changement de thèmes) */
+
+/* Fin du css de la nav bar */
+
+.banderole_bleue {
+    background: #2845B0;
+    color: #fff;
+    text-align: center;
+    padding: 60px 0 ;
+    margin: 0;
+    box-sizing: border-box;
+    font-size : 1rem
+}
+
+.banderole_bleue h1 {
+    font-size: 1.5rem;
+}
+
+.banderole_bleue p{
+    font-size:0.9rem;
+}
+
+.banderole_orange h2{
+    font-size:0.9rem;
+    color:white;
+    text-align:center;
+}
+
+.banderole_orange{
+    margin : 20px 0;
+    padding: 15px 0;
+    background-color:#FF6923;
+}
+
+.recherche_article {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    max-width: 300px;
+    margin: 50px auto -60px auto;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.recherche_article input {
+    display: block;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    min-width: 0;
+}
+
+.recherche_article button {
+    display: block;
+    background: #899CDF;
+    padding: 6px 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+}
+
+
+/* Début css du footer */
+
+footer {
+    background-color: #2845B0;
+    color: #fff;
+    text-align: center;
+    margin:100px 0 0 0;
+    padding: 20px 20px 50px 20px;
+    font-family: "Roboto", sans-serif;
+}
+
+.logo_EGEE_2 img{
+    width: 120px;
+    height: 45px;
+    margin: 0 0 20px 0;
+}
+
+footer p{
+    font-size: 0.9rem;
+    margin : 10px 0 40px 0;
+}
+
+footer .don{
+    margin : 5px 0 20px 0;
+}
+
+
+/* Zone avec réseaux + faire un don */
+.reseaux {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.reseaux a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    font-weight: bold;
+    text-decoration: none;
+    color: #2545a8;
+    background-color: #fff;
+}
+
+.reseaux a img{
+    width: 48px;
+    height: 48px;
+}
+
+.reseaux a:hover {
+    transform: scale(1.1);
+}
+
+.reseaux .don {
+    background-color: #FF6923;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    padding: 12px 24px;
+    font-size: 15px;
+    width: auto;
+    height: auto;
+}
+
+
+/* Zone Mentions légales */
+.legal {
+    justify-content: center;
+    font-size: 0.9rem;
+}
+
+.legal a {
+    color: #fff;
+}
+
+/* Fin du css du footer */
+
+.small_article_container .article1 img,.small_article_container .article2 img,.small_article_container .article3 img,.small_article_container .article4 img{
+    height: 240px;
+}
+
+.small_article_container p{
+    font-family: "Roboto", sans-serif;
+}
+
+.large_article_container{
+    display:none;
+}
+
+.carousel-inner{
+    margin : 70px 0 0 0;
+    border-radius: 15px;
+    box-shadow:0 8px 22px rgba(20,30,60,.08);
+
+}
+
+/* -------- Début de la version sur Desktop -------- */
+@media (min-width : 1381px){ /* Tout ce qui est au dessus de 1380 pixels */
+    .header_container {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        padding: 8px 38px 0 38px;
+        margin: 0 auto;
+    }
+
+    .logo {
+        height: 68px;
+    }
+    .barre_nav {
+        flex-direction: row;
+        align-items: center;
+
+    }
+    .barre_nav a {
+        padding: 9px 22px;
+        font-size: 1.3rem;
+        border-radius: 18px 18px 0 0;
+    }
+
+    .header_actions {
+        width: auto;
+        min-width: 175px;
+        flex-shrink: 0;
+        margin-left: 0;
+    }
+
+    .recherche_site{
+        max-width: 200px;
+    }
+    .recherche_site input {
+        max-width: 130px;
+        font-size: 1.07rem;
+        padding: 8px 9px;
+    }
+    .changement_theme {
+        font-size: 1.65rem;
+        margin-left: 9px;
+    }
+    .banderole_bleue {
+        width: 100%;
+        text-align: center;
+        padding: 150px 0 ;
+        margin: 0;
+    }
+
+    .banderole_bleue h1 {
+        font-size: 5rem;
+        margin: 14px 0;
+    }
+
+    .banderole_orange{
+        margin : 40px 0;
+        padding: 50px 0;
+    }
+
+    .logo_EGEE_2 img{
+        width: 160px;
+        height: 65px;
+        margin: 0 0 20px 0;
+    }
+
+    .banderole_orange h2{
+        font-size:3rem;
+    }
+
+    footer a,footer p,.reseaux .don,.banderole_bleue p{
+        font-size:1.5rem
+    }
+
+    .small_article_container{
+        display:none;
+    }
+
+    .large_article_container{
+        display:flex;
+    }
+
+    :root{
+        --radius:14px;
+        --gap:18px;
+        --shadow:0 8px 22px rgba(20,30,60,.08);
+
+    }
+
+
+    .large_article_container{
+        max-width:1060px;
+        margin:24px auto;
+        padding:0 10px;
+        display:grid;
+        grid-template-columns: 1.65fr 1fr;
+        grid-template-areas:
+    "large  small1"
+    "medium small2";
+        gap:25px;
+        align-items:start;
+    }
+
+    /* Carte générique */
+    .large_article_container article{
+        border-radius:15px;
+        box-shadow:0 8px 22px rgba(20,30,60,.08);
+    }
+
+    /* GRAND article: image gauche, texte droite */
+    article.large {
+        grid-area: large;
+        display: flex;
+        gap: 14px;
+        padding: 12px;
+    }
+    article.large img{
+        width:58%;
+        height:240px;
+        border-radius:10px;
+        display:block;
+    }
+    .corps_article1{
+        flex:1; display:flex;
+    }
+
+
+    /* MOYEN: image au-dessus, texte dessous */
+    article.medium {
+        grid-area: medium;
+        display: flex;
+        flex-direction: column;
+    }
+    article.medium img{
+        width:100%;
+        height:150px;
+        object-fit:cover;
+        border-radius:15px;
+        display:block;
+
+    }
+    .corps_article2{ padding:12px 14px; }
+
+    /* PETITS: image gauche, texte droite (empilés à droite) */
+    article.small1 {
+        grid-area: small1;
+        display: flex;
+        gap: 12px;
+        padding: 10px 70px 40px 10px;
+    }
+    article.small2 {
+        grid-area: small2;
+        display: flex;
+        gap: 12px;
+        padding: 10px 40px 40px 10px;
+    }
+
+    article.small1 img,
+    article.small2 img{
+        width:46%;
+        height:190px;
+        object-fit:cover;
+        border-radius:10px;
+        display:block;
+    }
+
+    .recherche_article {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px;
+        margin: 50px auto 0px auto;
+        border-radius: 6px;
+    }
+
+    .recherche_article input {
+        display: block;
+        padding: 6px 12px;
+        font-size: 1rem;
+        min-width: 0;
+    }
+
+    .recherche_article button {
+        display: block;
+        background: #899CDF;
+        padding: 6px 10px;
+        font-size: 1.25rem;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+    }
+
+}
+
+/* -------- Fin de la version Desktop -------- */
+
+/* -------- Début de la version entre 1028px et 1380px  -------- */
+@media (min-width : 1028px) and (max-width: 1380px){
+    .header_container {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        padding: 8px 38px 0 38px;
+        margin: 0 auto;
+    }
+
+    .logo {
+        height: 58px;
+    }
+    .barre_nav {
+        flex-direction: row;
+        align-items: center;
+        justify-content: start;
+
+    }
+    .barre_nav a {
+        font-size: 1.2rem;
+        border-radius: 18px 18px 0 0;
+    }
+    .recherche_site input {
+        max-width: 50px;
+        font-size: 0.8rem;
+    }
+
+    .recherche_site{
+        padding: 0 5px;
+        max-width: 95px;
+    }
+
+    .banderole_bleue {
+        padding: 120px 0;
+    }
+
+    .banderole_bleue h1{
+        font-size: 3rem;
+        margin: 14px 0;
+    }
+
+    .banderole_orange{
+        margin : 40px 0;
+        padding: 40px 0;
+    }
+
+    .banderole_orange h2{
+        font-size:1.8rem;
+    }
+    footer a,footer p,.reseaux .don,.banderole_bleue p{
+        font-size:1.25rem
+    }
+
+    .small_article_container{
+        display:none;
+    }
+
+    .large_article_container{
+        display:flex;
+    }
+
+    :root{
+        --radius:14px;
+        --gap:18px;
+        --shadow:0 8px 22px rgba(20,30,60,.08);
+
+    }
+
+
+    .large_article_container{
+        max-width:1060px;
+        margin:24px auto;
+        padding:0 10px;
+        display:grid;
+        grid-template-columns: 1.65fr 1fr;
+        grid-template-areas:
+    "large  small1"
+    "medium small2";
+        gap:25px;
+        align-items:start;
+    }
+
+    /* Carte générique */
+    .large_article_container article{
+        border-radius:15px;
+        box-shadow:0 8px 22px rgba(20,30,60,.08);
+    }
+
+    /* GRAND article: image gauche, texte droite */
+    article.large {
+        grid-area: large;
+        display: flex;
+        gap: 14px;
+        padding: 12px;
+    }
+    article.large img{
+        width:58%;
+        height:240px;
+        border-radius:10px;
+        display:block;
+    }
+    .corps_article1{
+        flex:1; display:flex;
+    }
+
+
+    /* MOYEN: image au-dessus, texte dessous */
+    article.medium {
+        grid-area: medium;
+        display: flex;
+        flex-direction: column;
+    }
+    article.medium img{
+        width:100%;
+        height:150px;
+        object-fit:cover;
+        border-radius:15px;
+        display:block;
+
+    }
+    .corps_article2{ padding:12px 14px; }
+
+    /* PETITS: image gauche, texte droite (empilés à droite) */
+    article.small1 {
+        grid-area: small1;
+        display: flex;
+        gap: 12px;
+        padding: 10px 70px 40px 10px;
+    }
+    article.small2 {
+        grid-area: small2;
+        display: flex;
+        gap: 12px;
+        padding: 10px 40px 40px 10px;
+    }
+
+    article.small1 img,
+    article.small2 img{
+        width:46%;
+        height:190px;
+        object-fit:cover;
+        border-radius:10px;
+        display:block;
+    }
+
+    .recherche_article {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px;
+        margin: 50px auto 0px auto;
+        border-radius: 6px;
+    }
+
+    .recherche_article input {
+        display: block;
+        padding: 6px 12px;
+        font-size: 1rem;
+        min-width: 0;
+    }
+
+    .recherche_article button {
+        display: block;
+        background: #899CDF;
+        padding: 6px 10px;
+        font-size: 1.25rem;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+    }
+
+}
+
+/* -------- Fin de la version entre 1028px et 1380px  -------- */
+
+
+/* -------- Début de la version entre 391 et 1027px -------- */
+
+@media (min-width : 391px) and (max-width: 1027px){ /* En dessous de 1028 pixels */
+    .barre_nav a {
+        font-size: 1.05rem;
+    }
+    .logo {
+        height: 48px;
+    }
+    .recherche_site input {
+        max-width: 60px;
+        font-size: 0.7rem;
+    }
+    .banderole_bleue {
+        padding: 80px 0;
+    }
+
+    .banderole_bleue h1{
+        font-size: 2rem;
+        margin: 14px 0;
+    }
+
+    .banderole_bleue p,.banderole_bleue h2{
+        font-size: 1rem;
+    }
+
+    .banderole_orange{
+        margin : 35px 0;
+        padding: 25px 0;
+    }
+
+    .banderole_orange h2{
+        font-size:1.2rem;
+    }
+
+    .small_article_container .article1 img, .article2 img,.small_article_container .article3 img,.small_article_container .article4 img{
+        height: 400px;
+    }
+
+    .large_article_container{
+        display:none;
+    }
+
+
+    .recherche_article {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px;
+        margin: 50px auto -60px auto;
+        border-radius: 6px;
+    }
+
+    .recherche_article input {
+        display: block;
+        padding: 6px 12px;
+        font-size: 0.9rem;
+        min-width: 0;
+    }
+
+    .recherche_article button {
+        display: block;
+        background: #899CDF;
+        padding: 6px 10px;
+        font-size: 1rem;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+    }
+}
+
+/* -------- Fin de la version entre 391 et 1027px  -------- */
