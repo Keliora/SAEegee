@@ -365,6 +365,22 @@ footer .don{
     margin: 10px 0 7px 0;
 }
 
+.france-map polygon,
+.france-map path {
+    cursor: pointer;
+    transition: fill 0.2s, stroke 0.2s;
+    fill: #294caf;
+}
+
+.france-map polygon:hover,
+.france-map path:hover {
+    fill: #FF6923;           /* couleur au survol */
+    stroke-width: 2;
+}
+.france-map svg {
+    width: 600px; /* ou une valeur en % si tu veux un ratio responsive plus grand */
+    height: auto; /* pour garder la proportion */
+}
 
 /* ------------------------ FIN DE LA PAGE CONTACT ------------------------ */
 
@@ -884,6 +900,10 @@ footer .don{
         width: 80px;
         margin-top: 11px;
     }
+    .france-map svg {
+        width: 480px;
+        height: auto;
+    }
 
     /* ------------------------ FIN DE LA PAGE CONTACT ------------------------ */
 }
@@ -1005,6 +1025,10 @@ footer .don{
     }
     .region-name {
         font-size: 1.12rem;
+    }
+    /* cache la carte */
+    .france-map {
+        display: none;
     }
     /* ------------------------ FIN DE LA PAGE CONTACT ------------------------ */
 }
