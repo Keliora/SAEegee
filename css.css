@@ -684,8 +684,9 @@ footer .don{
         font-size:1.2rem;
     }
 
-    .small_article_container .article1 img, .article2 img,.small_article_container .article3 img,.small_article_container .article4 img{
-        height: 400px;
+    .small_article_container .article1 img, .small_article_container .article2 img,.small_article_container .article3 img,.small_article_container .article4 img{
+        height: 500px;
+        object-fit:cover;
     }
 
     .large_article_container{
