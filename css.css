@@ -146,46 +146,6 @@
 
 /* Fin des banderoles Mobile First */
 
-/* Début css de la map /
-
-
-
-
-.siege-container {
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
-    padding: 16px 0;
-    max-width: 100vw;
-    margin: 0 auto;
-}
-.adresse-bloc {
-    text-align: center;
-    margin-bottom: 10px;
-}
-.map-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: 440px;
-    width: 90%;
-    min-width: 260px;
-    min-height: 200px;
-    max-height: 370px;
-    height: 320px;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 8px;
-    overflow: hidden;
-}
-.map-container iframe {
-    width: 100%;
-    height: 100%;
-    min-width: 260px;
-    min-height: 200px;
-    max-height: 370px;
-    border-radius: 8px;
-}
 
 
 /* Début css du Footer Mobile First */
@@ -321,8 +281,6 @@ footer .don{
 
 /* ------------------------ DEBUT DE LA PAGE CONTACT ------------------------ */
 /* Début css de la map*/
-
-
 .siege-container {
     flex-direction: column;
     align-items: center;
@@ -359,6 +317,54 @@ footer .don{
     border-radius: 8px;
 }
 /*Fin du css de la map */
+
+.regions-presentation {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 4px;
+}
+
+.regions-list-scroll {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin: 18px 0;
+    padding: 0;
+}
+
+.region-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(20,30,60,0.09);
+    text-align: center;
+    padding: 14px 2px 8px 2px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: box-shadow 0.20s, border 0.3s;
+}
+
+.region-card:hover,
+.region-card:focus {
+    box-shadow: 0 7px 24px rgba(41,76,175,0.16);
+    border: 2px solid #FF6923;
+}
+
+.region-card img {
+    width: 62px;
+    height: auto;
+    margin-top: 7px;
+    border-radius: 8px;
+    opacity: 0.92;
+}
+
+.region-name {
+    color: #294caf;
+    font-size: 1.02rem;
+    font-weight: bold;
+    margin: 10px 0 7px 0;
+}
+
 
 /* ------------------------ FIN DE LA PAGE CONTACT ------------------------ */
 
@@ -604,6 +610,36 @@ footer .don{
         min-height: 400px;
         max-height: 600px;
     }
+
+
+    .regions-presentation {
+        max-width: 1400px;
+        margin: 46px auto;
+        gap: 48px;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    .regions-list-scroll {
+        display: flex;
+        flex-direction: column;
+        gap: 26px;
+        width: 50%;
+        max-width: 540px;
+        min-width: 320px;
+        max-height: 660px;
+        overflow-y: auto;
+        background: #f8faff;
+        border-radius: 20px;
+        box-shadow: 0 2px 14px #294caf13;
+        margin: 0 0 0 auto;
+        padding: 36px 32px 34px 0;
+    }
+    .region-card img {
+        width: 95px;
+        margin-top: 17px;
+    }
+
     /* ------------------------ FIN DE LA PAGE CONTACT ------------------------ */
 }
 
@@ -814,6 +850,41 @@ footer .don{
         min-height: 320px;
         max-height: 480px;
     }
+
+    .regions-presentation {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 32px;
+        max-width: 1200px;
+        margin: 34px auto;
+    }
+    .regions-list-scroll {
+        flex: 0 0 50%;
+        width: 50%;
+        max-width: 480px;
+        min-width: 280px;
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        max-height: 500px;
+        overflow-y: auto;
+        background: #f8faff;
+        border-radius: 18px;
+        box-shadow: 0 2px 14px #294caf13;
+        margin: 0 0 0 auto;
+        padding: 20px 18px 20px 0;
+    }
+    .region-card {
+        padding: 22px 10px 14px 10px;
+        font-size: 1.13rem;
+        margin-bottom: 4px;
+    }
+    .region-card img {
+        width: 80px;
+        margin-top: 11px;
+    }
+
     /* ------------------------ FIN DE LA PAGE CONTACT ------------------------ */
 }
 
@@ -910,6 +981,30 @@ footer .don{
     .map-container iframe {
         min-height: 220px;
         max-height: 350px;
+    }
+
+    .regions-presentation {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 12px;
+    }
+    .regions-list-scroll {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        padding: 0 8px;
+        margin: 24px 0;
+        width: 100%;
+    }
+    .region-card {
+        padding: 18px 8px 10px 8px;
+        font-size: 1.07rem;
+    }
+    .region-card img {
+        width: 70px;
+        margin-top: 8px;
+    }
+    .region-name {
+        font-size: 1.12rem;
     }
     /* ------------------------ FIN DE LA PAGE CONTACT ------------------------ */
 }
