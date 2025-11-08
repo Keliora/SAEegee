@@ -2366,10 +2366,412 @@ footer .don{
 
 
 /* -------- Fin de la version entre 391 et 1027px  -------- */
-
-
-
-
-
-
 /* -------- Fin de la version entre 391 et 1027px  -------- */
+
+/* ------------------------ DEBUT DE LA PAGE INDEX/Accueil ------------------------ */
+
+
+
+.section-title {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #294caf;
+    text-align: center;
+    margin-bottom: 14px;
+}
+
+.mission-container {
+    display: flex;
+    justify-content: center;
+    padding: 35px 18px;
+}
+.mission-box {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 22px 26px;
+    box-shadow: 0 6px 18px rgba(41, 76, 175, 0.12);
+    max-width: 720px;
+}
+.engagements-title {
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #1e48c7;
+    margin-top: 16px;
+}
+.engagements-container {
+    padding: 45px 18px;
+    text-align: center;
+}
+.engagements-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 18px;
+}
+.engagement-card {
+    background: #f6f8ff;
+    border-left: 6px solid #FF6923;
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 1.05rem;
+    color: #294caf;
+    font-family: 'Roboto', sans-serif;
+    transition: transform 0.2s, background 0.2s;
+}
+.engagement-card:hover {
+    background: #ffe6d8;
+    transform: translateX(6px);
+}
+
+@media (min-width: 900px) {
+    .engagements-list {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .engagement-card {
+        width: 46%;
+    }
+}
+
+.mission-full {
+    width: 100%;
+    background: #ffffff;
+    padding: 80px 12px;
+    display: flex;
+    justify-content: center;
+}
+
+.mission-content {
+    max-width: 1100px;
+    text-align: center;
+    padding: 45px 55px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0px 8px 28px rgba(0, 0, 0, 0.08);
+}
+
+.mission-content p {
+    font-size: 1.1rem;
+    line-height: 1.65em;
+    color: #333;
+}
+
+.videos-section {
+    width: 100%;
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.videos-container {
+    display: flex;
+    justify-content: center;
+    gap: 45px;
+    flex-wrap: wrap;
+    max-width: 1400px;
+    width: 100%;
+}
+
+.video-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0px 8px 26px rgba(41, 76, 175, 0.10);
+    padding: 18px;
+    width: 48%;        /* Large sur desktop */
+    min-width: 350px;  /* Jamais trop petit */
+    text-align: center;
+    transition: transform .25s;
+}
+
+.video-card:hover {
+    transform: translateY(-6px);
+}
+
+.video-card video {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.video-card p {
+    margin-top: 14px;
+    font-size: 1.15rem;
+    color: #294caf;
+    font-weight: bold;
+}
+
+
+/* TELECHARGEMENT des RAPPORTS (les rapports sont en lien avec le fichier Rapport)*/
+.downloads {
+    max-width: 1100px;
+    margin: 36px auto 56px;
+    padding: 0 16px;
+}
+.downloads-intro {
+    text-align: center;
+    margin: 6px 0 18px;
+    color: #0a2a7a;
+}
+.downloads-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(240px,1fr));
+    gap: 16px;
+}
+@media (max-width: 960px) { .downloads-grid { grid-template-columns: repeat(2, minmax(220px,1fr)); } }
+@media (max-width: 640px) { .downloads-grid { grid-template-columns: 1fr; } }
+
+.download-card {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    gap: 6px;
+    padding: 18px;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid #e6edff;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 10px 24px rgba(0,0,0,.05);
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+.download-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(0,0,0,.08);
+}
+.download-year {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #1e48c7; /* bleu existant */
+    letter-spacing: .02em;
+}
+.download-meta {
+    font-size: .95rem;
+    color: #27418f;
+    opacity: .9;
+}
+.download-btn {
+    margin-top: 10px;
+    align-self: end;
+    display: inline-block;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: #1e48c7;
+    color: #fff;
+    font-weight: 700;
+    border: 1px solid #0d2f84;
+    text-align: center;
+}
+/* ------------------------ FIN DE LA PAGE INDEX/Accueil ------------------------ */
+
+
+/* ------------------------ DEBUT DE LA PAGE DON ------------------------ */
+.don-hero {
+    position: relative;
+    padding: 72px 16px 60px;
+    text-align: center;
+    background: radial-gradient(1100px 500px at 50% -10%, #899cdf22, transparent),
+    linear-gradient(180deg, #2845B0 0%, #294caf 60%, #2845B0 100%);
+    color: #fff;
+}
+.don-hero h1 { font-size: 2rem; letter-spacing: .2px; }
+.don-hero p { margin-top: 10px; opacity: .95; }
+.don-badges {
+    display: flex; justify-content: center; gap: 10px; margin-top: 14px; flex-wrap: wrap;
+}
+.don-badge {
+    background: #ffffff22; border: 1px solid #ffffff33; color: #fff;
+    padding: 8px 12px; border-radius: 999px; font-size: .95rem;
+    backdrop-filter: blur(3px);
+}
+
+.don-block {
+    max-width: 980px; margin: 0 auto; padding: 0 12px;
+}
+
+.don-cards {
+    display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 16px;
+}
+.don-card {
+    background: #fff; border-radius: 14px; padding: 18px 16px; text-align: center;
+    box-shadow: 0 8px 22px rgba(20,30,60,.08); border: 2px solid transparent;
+    transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.don-card:hover {
+    transform: translateY(-2px); border-color: #FF6923; box-shadow: 0 12px 28px rgba(20,30,60,.12);
+}
+.don-amount { font-size: 1.8rem; color: #294caf; font-weight: 800; }
+.don-caption { margin-top: 6px; font-family: "Roboto", sans-serif; color:#38445a; }
+.don-net {
+    margin-top: 8px; font-size: .92rem; color:#0d1428; background:#f3f6fb; border-radius: 10px; padding: 6px 10px;
+}
+
+.don-cta { display: flex; justify-content: center; margin-top: 18px; }
+.don-cta .don { font-size: 16px; padding: 12px 20px; }
+
+.don-impact {
+    display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 24px;
+}
+.don-impact-item {
+    background:#fff; border-radius:12px; padding:14px 12px; text-align:center;
+    box-shadow:0 6px 18px rgba(20,30,60,.07);
+}
+.don-impact-emoji { font-size:28px; }
+.don-impact-title { margin-top:6px; color:#294caf; font-weight:800; }
+.don-impact-text { margin-top:4px; font-family:"Roboto", sans-serif; }
+
+/* Baromètre (Il n'est pas fini il ne se met pas a jour où quoi ce soit) */
+.don-progress {
+    background:#fff; border-radius:14px; padding:16px; margin-top:24px;
+    box-shadow:0 8px 22px rgba(20,30,60,.08);
+}
+.don-progress-bar {
+    height:12px; border-radius:999px; background:#e9eef7; overflow:hidden;
+}
+.don-progress-fill {
+    height:100%; width:0%; background: linear-gradient(90deg,#FF6923,#ffa66f);
+}
+.don-progress-legend {
+    display:flex; justify-content:space-between; margin-top:8px; font-size:.95rem; color:#0d1428;
+}
+
+.don-faq details {
+    background:#fff; border-radius:12px; padding:12px 14px; margin:8px 0;
+    box-shadow:0 6px 18px rgba(20,30,60,.06);
+}
+.don-faq summary { cursor:pointer; font-weight:bold; color:#294caf; }
+.don-faq p { margin-top:8px; font-family:"Roboto", sans-serif; }
+
+
+/* Bouton principal du don */
+.don-cta .don {
+    background-color: #ff2a23;
+    color: #fff !important;
+    border-radius: 10px;
+    padding: 12px 24px;
+    text-decoration: none;
+    font-size: 1.05rem;
+    font-weight: bold;
+    transition: 0.2s ease;
+    display: inline-block;
+}
+
+.don-cta .don:hover {
+    background-color: #ffffff !important;
+    color: #f32727 !important;
+    border: 2px solid #f32727;
+    transform: translateY(-2px);
+}
+
+
+
+.reseaux .don {
+    background-color: #FF6923 !important;
+    border-radius: 10px;
+    padding: 12px 24px;
+    font-size: 1.05rem;
+    font-weight: bold;
+    color: #fff !important;
+    border: none;
+    transition: 0.2s ease;
+}
+
+.reseaux .don:hover {
+    background-color: #ff8248;
+    transform: translateY(-2px);
+}
+
+@media (min-width: 680px){
+    .don-cards { grid-template-columns: repeat(3,1fr); }
+    .don-impact { grid-template-columns: repeat(3,1fr); }
+}
+/* ------------------------ FIN DE LA PAGE INDEX/Accueil ------------------------ */
+
+/* ---- Thème sombre ---- */
+/* le .dark ne sert strictement a rien je l'utilise simplement comme classe pour que je puisse reperer facilement le css du mode sombre*/
+.dark body { background: #0b1020; color: #e6ebff; }
+
+/* Header & nav */
+.dark .header,
+.dark .header_container { background:#0f1530; }
+.dark .barre_nav a { color:#bfcaff; }
+.dark .barre_nav a.active { background:#20317f; color:#fff; }
+.dark .barre_nav a.actif { background:#3c4da0; color:#fff; }
+.dark .barre_nav a:hover { background:#20317f; color:#fff; }
+
+/* Recherche + switch */
+.dark .recherche_site { background:#121a3a; }
+.dark .recherche_site button { background:#20317f; }
+.dark .changement_theme { color:#7fd3ff; }
+
+/* Banderoles */
+.dark .banderole_bleue { background:#1a2a75; color:#e6ebff; }
+.dark .banderole_orange { background:#d65d1f; }
+
+/* Cartes / sections générales */
+.dark .mission-content,
+.dark .video-card,
+.dark .download-card,
+.dark .engagement-card,
+.dark .region-card,
+.dark .don-card,
+.dark .don-impact-item,
+.dark .don-progress { background:#0f1530; color:#e6ebff; box-shadow:0 8px 26px rgba(0,0,0,.45); }
+.dark .engagement-card { background:#121a3a; border-left-color:#ffa66f; }
+.dark .download-card { border-color:#1f2a66; }
+.dark .download-year { color:#c7d2ff; }
+.dark .download-meta { color:#9fb1ff; opacity:.95; }
+.dark .download-btn { background:#20317f; border-color:#17235a; }
+.dark .banderole_orange{ background:#20317f; border-color:#17235a; }
+
+
+
+/* Mode nuit — corrige UNIQUEMENT la zone Notre Mission */
+.dark .mission-full {
+    background: #0b1020 !important;
+}
+
+.dark .mission-content {
+    background: #010e40 !important;
+    color: #dce3ff;
+}
+
+.dark .mission-content p {
+    color: #c7d2ff;
+}
+
+.dark .mission-content p {
+    color: #dce3ff;
+}
+
+.dark .mission-content h2 {
+    color: #8ea8ff ;
+}
+
+.dark .mission-content h2 {
+    color: #8ea8ff !important;
+}
+
+/* Vidéos */
+.dark .video-card p { color:#c7d2ff; }
+.dark .videos-section h2 { color: #94b6ff; }
+
+
+/* Rapport/Downloads */
+.dark .downloads h2 { color: #3e6aca; }
+html.dark .downloads p { color: #94b6ff; }
+
+/* Footer */
+.dark footer { background:#13205e; color:#fff; }
+.dark .reseaux a { border-color:#e6ebff; background: #000c35; }
+
+
+/* Petits fonds pâles */
+.dark .engagement-card:hover { background:#1c2650; }
+.dark .don-progress-bar { background:#1b2758; }
+.dark .don-progress-fill { background:linear-gradient(90deg,#ffa66f,#ff9151); }
+
+
+
