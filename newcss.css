@@ -150,6 +150,20 @@ a {
     transform: translateY(-1px);
 }
 
+
+.btn-connect {
+    background: var(--orange);
+    color: #fff;
+    box-shadow: var(--shadow-soft);
+}
+
+.btn-connect:hover {
+    color: #000;
+    background: white;
+    transform: translateY(-1px);
+    outline: 2px solid #fd6a2c;
+
+}
 .btn-outline {
     background: transparent;
     color: var(--blue);
@@ -508,7 +522,303 @@ h2 {
     opacity: 0.9;
 }
 
+/* ------------ MAP/CONTACT ----------*/
+/* Début css de la map*/
+.siege-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 16px 0;
+    max-width: 100vw;
+    margin: 0 auto;
+}
+.adresse-bloc {
+    text-align: center;
+    margin-bottom: 10px;
+}
+.map-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 440px;
+    width: 90%;
+    min-width: 260px;
+    min-height: 200px;
+    max-height: 370px;
+    height: 320px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.map-container iframe {
+    width: 100%;
+    height: 100%;
+    min-width: 260px;
+    min-height: 200px;
+    max-height: 370px;
+    border-radius: 8px;
+}
+
+.section-siege {
+    padding: 3rem 0;
+}
+
+.siege-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.siege-title {
+    color: var(--blue);
+    margin-bottom: 1rem;
+}
+
+.siege-address {
+    font-style: normal;
+    line-height: 1.8;
+}
+
+.siege-actions {
+    margin-top: 1.5rem;
+}
+
+/* Conteneur de la carte */
+.map-container {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    height: 300px;
+    box-shadow: var(--shadow-soft);
+}
+
+.map-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+/*Fin du css de la map */
+
+/* Styles de la section régions */
+.section-grey {
+    background-color: var(--grey); /* Utilise votre variable existante */
+    padding: 4rem 0;
+}
+
+.region-title {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.region-subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+/* Grille des cartes */
+.region-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Style de la carte individuelle */
+.region-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.region-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-soft);
+}
+
+.region-name {
+    font-weight: 600;
+    color: var(--blue);
+    margin-bottom: 1rem;
+}
+
+.region-logo {
+    max-height: 100px;
+    width: auto;
+    object-fit: contain;
+}
+
+
+.region-name {
+    color: #294caf;
+    font-size: 1.02rem;
+    font-weight: bold;
+    margin: 10px 0 7px 0;
+}
+
+/* Le conteneur parent */
+.france-map {
+    display: flex;
+    justify-content: center; /* Centre horizontalement */
+    align-items: center;     /* Centre verticalement */
+    width: 100%;
+    padding: 20px;
+}
+
+/* Le SVG lui-même */
+.france-map svg {
+    width: 100%;            /* Prend toute la place du parent... */
+    max-width: 600px;       /* ...mais ne dépasse pas 600px */
+    height: auto;
+    display: block;
+}
+
+/* Votre code existant pour l'interactivité */
+.france-map path, .france-map polygon {
+    cursor: pointer;
+    transition: fill 0.2s, stroke 0.2s;
+    fill: #294caf;
+    stroke: #ffffff; /* Ajout d'une bordure blanche pour séparer les régions */
+    stroke-width: 0.5;
+}
+
+.france-map path:hover, .france-map polygon:hover {
+    fill: #FF6923;
+    stroke-width: 2;
+}
+
+/* ===========================
+   PAGE LOGIN
+=========================== */
+
+/* Wrapper principal */
+.login-wrap {
+    padding: 2.4rem 0 2.8rem;
+    background: #f5f7ff;
+}
+
+/* En-tête */
+.login-header {
+    text-align: center;
+    margin-bottom: 1.4rem;
+}
+
+.login-header h1 {
+    color: #111827;
+    margin-bottom: .35rem;
+}
+
+/* Grille User / Admin */
+.login-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.4rem;
+    margin-top: 1.4rem;
+}
+
+/* Cartes */
+.login-card {
+    padding: 1.2rem 1.25rem;
+}
+
+/* Badges */
+.login-badge {
+    display: inline-block;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: .35rem .7rem;
+    border-radius: 999px;
+    margin-bottom: .6rem;
+}
+
+.badge-user {
+    background: var(--blue-light);
+    color: var(--blue);
+}
+
+.badge-admin {
+    background: #ffe7dc;
+    color: var(--orange-dark);
+}
+
+/* Formulaires */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: .85rem;
+    margin-top: .7rem;
+}
+
+.field label {
+    display: block;
+    font-size: .9rem;
+    font-weight: 600;
+    margin-bottom: .35rem;
+    color: #111827;
+}
+
+.field input {
+    width: 100%;
+    padding: .75rem .9rem;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    outline: none;
+    transition: box-shadow .2s ease, border-color .2s ease;
+}
+
+.field input:focus {
+    border-color: rgba(0, 80, 164, .45);
+    box-shadow: 0 0 0 4px rgba(0, 80, 164, .12);
+}
+
+/* Actions */
+.form-actions {
+    display: flex;
+    gap: .7rem;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: .2rem;
+}
+
+/* Textes */
+.muted {
+    color: var(--text-muted);
+    font-size: .9rem;
+}
+
+.split-note {
+    font-size: .9rem;
+    color: var(--text-muted);
+    margin-top: .4rem;
+}
+
+/* Message d'erreur */
+.alert {
+    margin: 0 auto;
+    max-width: 860px;
+    background: #fff;
+    border: 1px solid #fee2e2;
+    color: #991b1b;
+    border-radius: 14px;
+    padding: .85rem 1rem;
+    box-shadow: var(--shadow-soft);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .login-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* ------------ FOOTER ------------ */
+
 .site-footer {
     background: #0b1021;
     color: #e5e7eb;
@@ -580,6 +890,9 @@ h2 {
     color: #9ca3af;
     text-align: center;
 }
+
+
+
 
 /* ------------ RESPONSIVE ------------ */
 @media (max-width: 900px) {
