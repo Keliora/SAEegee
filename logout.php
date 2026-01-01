@@ -1,6 +1,7 @@
 <?php
-
-session_start();
+require_once "init.php";
 session_destroy();
-header('Location: login.php');
+session_start();
+$_SESSION['login_error'] = "Déconnecté.";
+header("Location: login.php");
 exit;
