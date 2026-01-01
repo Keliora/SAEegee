@@ -1875,67 +1875,67 @@ include('header.php');
                 <p class="region-subtitle">Cliquez sur l'une des régions pour accéder à sa page contact.</p>
 
                 <div class="cards-grid region-grid">
-                    <a href="page_contact_region.html" class="card region-card">
+                    <a  class="card region-card">
                         <div class="region-name">Auvergne-Rhône-Alpes</div>
                         <img src="assets/image/logo-regions/logo-auvergne-rhone-alpes.png" alt="Logo Auvergne-Rhône-Alpes" class="region-logo">
                     </a>
 
-                    <a href="page_contact_region.html" class="card region-card">
+                    <a  class="card region-card">
                         <div class="region-name">Bourgogne-Franche-Comté</div>
                         <img src="assets/image/logo-regions/logo-bourgogne-franche-comte.png" alt="Logo Bourgogne-Franche-Comté" class="region-logo">
                     </a>
 
-                    <a href="page_contact_region.html" class="card region-card">
+                    <a  class="card region-card">
                         <div class="region-name">Bretagne</div>
                         <img src="assets/image/logo-regions/logo-bretagne.png" alt="Logo Bretagne" class="region-logo">
                     </a>
 
-                    <a href="page_contact_region.html" class="card region-card">
+                    <a  class="card region-card">
                         <div class="region-name">Centre-Val de Loire</div>
                         <img src="assets/image/logo-regions/logo-centre-val-de-loire.png" alt="Logo Centre-Val de Loire" class="region-logo">
                     </a>
 
-                    <a href="page_contact_region.html" class="card region-card">
+                    <a  class="card region-card">
                         <div class="region-name">Corse</div>
                         <img src="assets/image/logo-regions/logo-corse.png" alt="Logo Corse" class="region-logo">
                     </a>
 
-                    <a href="page_contact_region.html" class="card region-card">
+                    <a  class="card region-card">
                         <div class="region-name">Grand Est</div>
                         <img src="assets/image/logo-regions/logo-grand-est.png" alt="Logo Grand Est" class="region-logo">
                     </a>
 
-                    <a href="page_contact_region.html" class="card region-card">
+                    <a class="card region-card">
                         <div class="region-name">Hauts-de-France</div>
                         <img src="assets/image/logo-regions/logo-hauts-de-france.png" alt="Logo Hauts-de-France" class="region-logo">
                     </a>
 
-                    <a href="page_contact_region.html" class="card region-card">
+                    <a  class="card region-card">
                         <div class="region-name">Île-de-France</div>
                         <img src="assets/image/logo-regions/logo-ile-de-france.png" alt="Logo Île-de-France" class="region-logo">
                     </a>
 
-                    <a href="page_contact_region.html" class="card region-card">
+                    <a  class="card region-card">
                         <div class="region-name">Normandie</div>
                         <img src="assets/image/logo-regions/logo-normandie.png" alt="Logo Normandie" class="region-logo">
                     </a>
 
-                    <a href="page_contact_region.html" class="card region-card">
+                    <a  class="card region-card">
                         <div class="region-name">Nouvelle-Aquitaine</div>
                         <img src="assets/image/logo-regions/logo-nouvelle-aquitaine.png" alt="Logo Nouvelle-Aquitaine" class="region-logo">
                     </a>
 
-                    <a href="page_contact_region.html" class="card region-card">
+                    <a  class="card region-card">
                         <div class="region-name">Occitanie</div>
                         <img src="assets/image/logo-regions/logo-occitanie.png" alt="Logo Occitanie" class="region-logo">
                     </a>
 
-                    <a href="page_contact_region.html" class="card region-card">
+                    <a class="card region-card">
                         <div class="region-name">Pays de la Loire</div>
                         <img src="assets/image/logo-regions/logo-pays-de-la-loire.png" alt="Logo Pays de la Loire" class="region-logo">
                     </a>
 
-                    <a href="page_contact_region.html" class="card region-card">
+                    <a class="card region-card">
                         <div class="region-name">Provence-Alpes-Côte d'Azur</div>
                         <img src="assets/image/logo-regions/logo-provence-alpes-cote-d-azur.png" alt="Logo Provence-Alpes-Côte d'Azur" class="region-logo">
                     </a>
