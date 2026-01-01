@@ -1869,6 +1869,44 @@ include('header.php');
         270.641,71.547 271.226,71.318 271.304,71.25 "/>
             </svg>
         </div>
+        <section class="container shadow-section section-formulaire">
+            <div class="form-header">
+                <h2 class="siege-title">Envoyez-nous un message</h2>
+                <p class="section-intro">Une question ? Un projet ? N'hésitez pas à nous contacter via le formulaire ci-dessous.</p>
+            </div>
+
+            <form action="traitement_contact.php" method="POST" class="contact-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="nom">Nom complet</label>
+                        <input type="text" id="nom" name="nom" placeholder="Votre nom" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Adresse Email</label>
+                        <input type="email" id="email" name="email" placeholder="votre@email.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="objet">Objet</label>
+                    <select id="objet" name="objet">
+                        <option value="information">Demande d'information</option>
+                        <option value="partenariat">Devenir partenaire</option>
+                        <option value="jeune">Accompagnement jeune</option>
+                        <option value="entreprise">Aide aux entreprises</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="5" placeholder="Comment pouvons-nous vous aider ?" required></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary btn-large">Envoyer le message</button>
+                </div>
+            </form>
+        </section>
         <section class="section-grey">
             <div class="container">
                 <h2 class="region-title">Contacter l'une de nos régions</h2>
