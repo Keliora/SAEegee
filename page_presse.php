@@ -10,7 +10,7 @@
 <body>
 
 <?php
-$pageTitle = "Accueil - EGEE"; // Optionnel : titre dynamique
+$pageTitle = "Accueil - EGEE";
 include('header.php');
 ?>
 

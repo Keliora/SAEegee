@@ -19,6 +19,7 @@ include "header.php";
         <div class="login-header">
             <h1>Se connecter</h1>
             <p class="split-note">Remplis le bon formulaire selon ton rôle.</p>
+
         </div>
 
         <?php if (!empty($err)): ?>
@@ -27,7 +28,7 @@ include "header.php";
 
         <div class="login-grid">
 
-            <!-- Utilisateur -->
+
             <div class="login-card">
                 <div class="login-badge badge-user">Utilisateur</div>
                 <h3>Accès utilisateur</h3>
@@ -48,6 +49,9 @@ include "header.php";
 
                     <button class="btn btn-primary" type="submit">Connexion utilisateur</button>
                 </form>
+                <p class = "login-signin">
+                    Pas de compte ? <a href="register.php">Inscris-toi</a>
+                </p>
             </div>
 
 
