@@ -1,14 +1,13 @@
 <?php
 require_once "init.php";
 
-
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     $_SESSION['login_error'] = "Accès interdit.";
     header("Location: login.php");
     exit;
 }
 
-
+$roleForm = $_POST['role'] ?? 'user';
 $email    = trim($_POST['identifier'] ?? '');
 $password = $_POST['password'] ?? '';
 
@@ -25,17 +24,23 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 }
 
 
-$sql = "SELECT IdBenevole, Email, Password, PrenomBenevole, NomBenevole
+$expectedRole = ($roleForm === 'admin') ? 'ADMIN' : 'USER';
+
+$sql = "SELECT IdBenevole, Email, Password, PrenomBenevole, NomBenevole, Role
         FROM Benevole
-        WHERE Email = :email
+        WHERE Email = :email AND Role = :role
         LIMIT 1";
 
 $stmt = $pdo->prepare($sql);
-$stmt->execute([':email' => $email]);
-$user = $stmt->fetch();
+$stmt->execute([
+    ':email' => $email,
+    ':role'  => $expectedRole
+]);
+
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$user) {
-    $_SESSION['login_error'] = "Compte introuvable.";
+    $_SESSION['login_error'] = "Compte introuvable ou rôle non autorisé.";
     header("Location: login.php");
     exit;
 }
@@ -51,9 +56,15 @@ $_SESSION['auth'] = [
     'email'       => $user['Email'],
     'prenom'      => $user['PrenomBenevole'],
     'nom'         => $user['NomBenevole'],
+    'role'        => $user['Role'],
 ];
 
-// Redirection
 unset($_SESSION['login_error']);
-header("Location: dashboard.php");
+
+
+if ($user['Role'] === 'ADMIN') {
+    header("Location: admin/dashboard.php");
+} else {
+    header("Location: index.php");
+}
 exit;
