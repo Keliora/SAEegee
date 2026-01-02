@@ -1,6 +1,12 @@
 <?php
 // On sait jamais vous voulez rajouter des variables pour le header mettez les là
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+$auth = $_SESSION['auth'] ?? null;
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -29,9 +35,27 @@
         </nav>
 
         <div class="header-cta">
-            <a href="page_don.php" class="btn btn-donate">Faire un don</a>
-            <a href="login.php" class="btn btn-connect">Se connecter</a>
+
+
+            <?php if (!$auth): ?>
+                <a href="login.php" class="btn btn-connect">Se connecter</a>
+                <a href="page_don.php" class="btn btn-donate">Faire un don</a>
+            <?php else: ?>
+                <span class="header-user">
+            Connecté : <strong><?= htmlspecialchars(trim(($auth['prenom'] ?? '') . ' ' . ($auth['nom'] ?? '')), ENT_QUOTES, 'UTF-8') ?></strong>
+        </span>
+
+                <?php if (($auth['role'] ?? 'USER') === 'ADMIN'): ?>
+                    <a href="admin/dashboard.php" class="btn btn-connect">Dashboard</a>
+                <?php endif; ?>
+                <?php if (($auth['role'] ?? 'USER') === 'USER'): ?>
+                    <a href="user/dashboard.php" class="btn btn-connect">Dashboard</a>
+                <?php endif; ?>
+
+                <a href="logout.php" class="btn btn-connect">Se déconnecter</a>
+            <?php endif; ?>
         </div>
+
 
         <button class="burger" aria-label="Ouvrir le menu">
             <span></span><span></span><span></span>
