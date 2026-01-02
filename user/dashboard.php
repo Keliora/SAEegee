@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . "/../init.php";
 
-/* ===== GUARD USER ===== */
 if (empty($_SESSION['auth'])) {
     $_SESSION['login_error'] = "Vous devez être connecté.";
     header("Location: ../login.php");
@@ -16,7 +15,7 @@ function h($v){ return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); }
 
 $idBenevole = (int)$_SESSION['auth']['id_benevole'];
 
-/* ===== PROFIL ===== */
+
 $profil = $pdo->prepare("
     SELECT PrenomBenevole, NomBenevole, Email,
            VilleBenevole, CompetenceBenevole,
@@ -27,7 +26,6 @@ $profil = $pdo->prepare("
 $profil->execute([':id'=>$idBenevole]);
 $user = $profil->fetch(PDO::FETCH_ASSOC);
 
-/* ===== MISSIONS DU USER ===== */
 $missions = $pdo->prepare("
     SELECT m.TitreMission, m.LieuMission, m.DateHeureDebut, m.DateHeureFin,
            p.RoleBenevole, p.Duree
@@ -51,7 +49,6 @@ $events = $pdo->prepare("
 $events->execute([':id'=>$idBenevole]);
 $events = $events->fetchAll(PDO::FETCH_ASSOC);
 
-/* ===== STATS PERSO ===== */
 $nbMissions = count($missions);
 $nbEvents   = count($events);
 ?>
@@ -67,7 +64,7 @@ $nbEvents   = count($events);
 
 <div class="dash-shell">
 
-    <!-- SIDEBAR USER -->
+
     <aside class="dash-side">
         <div class="dash-side-top">
             <div class="dash-brand">
@@ -88,7 +85,7 @@ $nbEvents   = count($events);
         </nav>
     </aside>
 
-    <!-- MAIN -->
+
     <main class="dash-main">
 
         <header class="dash-topbar">
@@ -98,7 +95,7 @@ $nbEvents   = count($events);
             </div>
         </header>
 
-        <!-- KPIs USER -->
+
         <section class="dash-kpis">
             <div class="dash-kpi">
                 <div class="dash-kpi-title">Missions</div>
@@ -110,7 +107,7 @@ $nbEvents   = count($events);
             </div>
         </section>
 
-        <!-- PROFIL -->
+
         <section class="dash-card">
             <div class="dash-card-head">
                 <div class="dash-card-title">Mon profil</div>
@@ -125,7 +122,7 @@ $nbEvents   = count($events);
             </div>
         </section>
 
-        <!-- MISSIONS -->
+
         <section class="dash-card dash-tablecard">
             <div class="dash-card-head">
                 <div class="dash-card-title">Mes missions</div>
@@ -160,7 +157,7 @@ $nbEvents   = count($events);
             </div>
         </section>
 
-        <!-- EVENEMENTS -->
+
         <section class="dash-card dash-tablecard">
             <div class="dash-card-head">
                 <div class="dash-card-title">Mes événements</div>
