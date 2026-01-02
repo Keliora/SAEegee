@@ -127,8 +127,8 @@ $available = $availableStmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
         <nav class="dash-menu">
             <a class="dash-link" href="dashboard.php">Tableau de bord</a>
             <a class="dash-link" href="profil.php">Mon profil</a>
-            <a class="dash-link" href="missions.php">Mes missions</a>
-            <a class="dash-link is-active" href="evenements.php">Mes événements</a>
+            <a class="dash-link is-active" href="missions.php">Mes missions</a>
+            <a class="dash-link " href="evenements.php">Mes événements</a>
             <a class="dash-link" href="../logout.php">Déconnexion</a>
         </nav>
     </aside>
@@ -273,13 +273,7 @@ $available = $availableStmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
 </div>
 
 
-<style>
-    .dash-alert{padding:14px 18px;border-radius:14px;margin-bottom:16px;font-weight:600;}
-    .dash-alert-success{background:#ecfdf5;border:1px solid #34d399;color:#065f46;}
-    .dash-alert-error{background:#fef2f2;border:1px solid #f87171;color:#7f1d1d;}
-    .dash-input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #e2e8f0;background:#f8fafc;}
-    .dash-input:focus{outline:none;border-color:#2563eb;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.15);}
-</style>
+
 
 </body>
 </html>

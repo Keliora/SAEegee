@@ -1,7 +1,5 @@
 <?php
 require_once __DIR__ . "/../init.php";
-
-/* ===== GUARD USER ===== */
 if (empty($_SESSION['auth'])) {
     $_SESSION['login_error'] = "Vous devez être connecté.";
     header("Location: ../login.php");
@@ -91,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-/* ===== PROFIL ACTUEL ===== */
+
 $stmt = $pdo->prepare("
     SELECT PrenomBenevole, NomBenevole, Email,
            VilleBenevole, CompetenceBenevole,
@@ -115,7 +113,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 <div class="dash-shell">
 
-    <!-- SIDEBAR -->
+
     <aside class="dash-side">
         <div class="dash-side-top">
             <div class="dash-brand">
@@ -136,7 +134,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
         </nav>
     </aside>
 
-    <!-- MAIN -->
+
     <main class="dash-main">
 
         <header class="dash-topbar">
@@ -220,33 +218,6 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
     </main>
 </div>
 
-<style>
-    .dash-form-grid{
-        display:grid;
-        grid-template-columns:repeat(2,minmax(0,1fr));
-        gap:14px;
-    }
-    .dash-input{
-        width:100%;
-        padding:10px;
-        border-radius:10px;
-        border:1px solid #e2e8f0;
-    }
-    .dash-alert-success{
-        background:#e6fffa;
-        border:1px solid #38b2ac;
-        padding:12px;
-        margin-bottom:12px;
-        border-radius:10px;
-    }
-    .dash-alert-error{
-        background:#fff5f5;
-        border:1px solid #f56565;
-        padding:12px;
-        margin-bottom:12px;
-        border-radius:10px;
-    }
-</style>
 
 </body>
 </html>

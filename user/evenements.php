@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . "/../init.php";
 
-/* ===== GUARD USER ===== */
+
 if (empty($_SESSION['auth'])) {
     $_SESSION['login_error'] = "Vous devez être connecté.";
     header("Location: ../login.php");
@@ -18,7 +18,7 @@ $idBenevole = (int)$_SESSION['auth']['id_benevole'];
 $success = null;
 $error = null;
 
-/* ===== ACTIONS INSCRIPTION / DESINSCRIPTION ===== */
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
     $idEvenement = (int)($_POST['id_evenement'] ?? 0);
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($action === 'join') {
             $role = trim($_POST['role'] ?? 'Participant');
 
-            // vérifier que l'événement existe et est à venir (date >= aujourd'hui)
+
             $stmt = $pdo->prepare("
                 SELECT COUNT(*)
                 FROM Evenement
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 throw new Exception("Cet événement n'est pas disponible.");
             }
 
-            // inscription (PK (IdBenevole, IdEvenement))
+
             $stmt = $pdo->prepare("
                 INSERT INTO Assister (IdBenevole, IdEvenement, Role, EstPresent)
                 VALUES (:b, :e, :r, 0)
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
     } catch (PDOException $e) {
-        // Duplicate entry => déjà inscrit
+
         if (str_contains($e->getMessage(), 'Duplicate') || str_contains($e->getMessage(), '1062')) {
             $error = "Tu es déjà inscrit à cet événement.";
         } else {
@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-/* ===== EVENEMENTS USER (déjà inscrit) ===== */
+
 $myEventsStmt = $pdo->prepare("
     SELECT e.IdEvenement, e.NomEvenement, e.TypeEvenement, e.DateEvenement, e.HeureEvenement,
            a.Role, a.EstPresent
@@ -85,7 +85,7 @@ $myEventsStmt = $pdo->prepare("
 $myEventsStmt->execute([':b' => $idBenevole]);
 $myEvents = $myEventsStmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
 
-/* ===== EVENEMENTS DISPONIBLES (à venir) ===== */
+
 $availableStmt = $pdo->prepare("
     SELECT
         e.IdEvenement, e.NomEvenement, e.TypeEvenement, e.DateEvenement, e.HeureEvenement, e.LienMediaEvenement,
@@ -114,7 +114,7 @@ $available = $availableStmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
 
 <div class="dash-shell">
 
-    <!-- SIDEBAR USER -->
+
     <aside class="dash-side">
         <div class="dash-side-top">
             <div class="dash-brand">
@@ -135,7 +135,7 @@ $available = $availableStmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
         </nav>
     </aside>
 
-    <!-- MAIN -->
+
     <main class="dash-main">
 
         <header class="dash-topbar">
@@ -152,7 +152,7 @@ $available = $availableStmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
             <div class="dash-alert dash-alert-error"><?= h($error) ?></div>
         <?php endif; ?>
 
-        <!-- MES EVENEMENTS -->
+
         <section class="dash-card dash-tablecard" style="margin-bottom:12px;">
             <div class="dash-card-head">
                 <div class="dash-card-title">Mes événements (inscriptions)</div>
@@ -195,7 +195,7 @@ $available = $availableStmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
             </div>
         </section>
 
-        <!-- EVENEMENTS DISPONIBLES -->
+
         <section class="dash-card">
             <div class="dash-card-head">
                 <div class="dash-card-title">Événements disponibles</div>
@@ -259,13 +259,7 @@ $available = $availableStmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
     </main>
 </div>
 
-<style>
-    .dash-alert{padding:14px 18px;border-radius:14px;margin-bottom:16px;font-weight:600;}
-    .dash-alert-success{background:#ecfdf5;border:1px solid #34d399;color:#065f46;}
-    .dash-alert-error{background:#fef2f2;border:1px solid #f87171;color:#7f1d1d;}
-    .dash-input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #e2e8f0;background:#f8fafc;}
-    .dash-input:focus{outline:none;border-color:#2563eb;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.15);}
-</style>
+
 
 </body>
 </html>
