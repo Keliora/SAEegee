@@ -1,5 +1,5 @@
 <?php
-require_once "init.php"; // doit faire session_start() + $pdo
+require_once "init.php";
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     $_SESSION['register_error'] = "Accès interdit.";
@@ -16,7 +16,7 @@ $pass2   = $_POST['password2'] ?? '';
 $ville   = trim($_POST['ville'] ?? '');
 $numero  = trim($_POST['numero'] ?? '');
 
-// pour ré-afficher les champs (sans mot de passe)
+
 $_SESSION['register_old'] = [
     'prenom' => $prenom,
     'nom'    => $nom,
