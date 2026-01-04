@@ -36,13 +36,19 @@ include('header.php');
         <div class="recherche_article" style="display: flex; gap: 0.5rem; margin-bottom: 2rem;">
             <input placeholder="Rechercher..." style="padding: 0.5rem; border: 1px solid var(--grey); border-radius: 4px; flex-grow: 1;">
             <button class="btn btn-secondary">🔍</button>
-            <button class="btn btn-outline">▼</button>
+            <select id="filtre-select" class="btn btn-outline" style="cursor: pointer;">
+                <option value="default" disabled selected>▼ Filtrer</option>
+                <option value="az">Alphabétique (A-Z)</option>
+                <option value="za">Alphabétique (Z-A)</option>
+                <option value="date-desc">Plus récents</option>
+                <option value="vues-desc">Plus vus</option>
+            </select>
         </div>
 
 
 
         <section class="large_article_container cards-grid" style="grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
-            <article class="card large" style="grid-column: span 2; display: flex; align-items: flex-start; gap: 1rem;">
+            <article class="card large" data-date="2025-01-15" data-vues="1250" style="grid-column: span 2; display: flex; align-items: flex-start; gap: 1rem;">
                 <img src="assets/image/article1.png" alt="Article 1" style="max-width: 250px; border-radius: 12px;"/>
                 <div class="corps_article1">
                     <h3>«Orientation, recherche d’un job d’été… À Tinténiac, EGEE coache les lycéens»</h3>
@@ -53,7 +59,7 @@ include('header.php');
                     </p>
                 </div>
             </article>
-            <article class="card medium" style="display: flex; align-items: flex-start; gap: 1rem;">
+            <article class="card medium" data-date="2024-09-26" data-vues="1400"style="display: flex; align-items: flex-start; gap: 1rem;">
                 <img src="assets/image/article2.png" alt="Article 2" style="max-width: 150px; border-radius: 12px;"/>
                 <div class="corps_article2">
                     <h3>«BTS de Saint-Gabriel Pont-l’Abbé – Privilégier la cohésion »</h3>
@@ -64,7 +70,7 @@ include('header.php');
                     </p>
                 </div>
             </article>
-            <article class="card small1" style="display: flex; align-items: flex-start; gap: 1rem;">
+            <article class="card small1" data-date="2025-03-31" data-vues="850" style="display: flex; align-items: flex-start; gap: 1rem;">
                 <img src="assets/image/article3.png" alt="Article 3" style="max-width: 150px; border-radius: 12px;"/>
                 <div class="corps_article3">
                     <h3>«Saint-Amant-de-Boixe : les collégiens de 4e préparent déjà leur stage en entreprise»</h3>
@@ -75,7 +81,7 @@ include('header.php');
                     </p>
                 </div>
             </article>
-            <article class="card small2" style="grid-column: span 2; display: flex; align-items: flex-start; gap: 1rem;">
+            <article class="card small2" data-date="2025-04-30" data-vues="1050" style="grid-column: span 2; display: flex; align-items: flex-start; gap: 1rem;">
                 <img src="assets/image/article4.png" alt="Article 4" style="max-width: 250px; border-radius: 12px;"/>
                 <div class="corps_article4">
                     <h3>«Monswiller se prépare face aux crues !»</h3>
@@ -92,5 +98,7 @@ include('header.php');
 <?php include('footer.php'); ?>
 
 <script src = "menuBuger.js"> </script>
+<script src="rechercheArticle.js"></script>
+<script src="filtre.js"></script>
 </body>
 </html>
