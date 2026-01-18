@@ -215,7 +215,7 @@ include('header.php');
 
 </main>
 
-<script src = "menuBuger.js"> </script>
+<script src = "assets/js/menuBuger.js"> </script>
 
 <?php include('footer.php'); ?>
 

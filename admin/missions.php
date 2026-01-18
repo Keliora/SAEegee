@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . "/../init.php";
 
-
 if (empty($_SESSION['auth'])) {
     $_SESSION['login_error'] = "Vous devez être connecté.";
     header("Location: ../login.php");
@@ -12,7 +11,6 @@ if (($_SESSION['auth']['role'] ?? '') !== 'ADMIN') {
     header("Location: ../index.php");
     exit;
 }
-
 
 function h($v) { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); }
 
@@ -25,6 +23,15 @@ function flash_get($key) {
     return null;
 }
 
+/**
+ * Convertit un DATETIME SQL (YYYY-MM-DD HH:MM:SS) en format datetime-local (YYYY-MM-DDTHH:MM)
+ */
+function dt_local_value($sqlDateTime) {
+    if (empty($sqlDateTime)) return '';
+    if (strpos($sqlDateTime, 'T') !== false) return substr($sqlDateTime, 0, 16);
+    return str_replace(' ', 'T', substr($sqlDateTime, 0, 16));
+}
+
 if (empty($_SESSION['csrf'])) {
     $_SESSION['csrf'] = bin2hex(random_bytes(16));
 }
@@ -33,12 +40,10 @@ $csrf = $_SESSION['csrf'];
 $adminName  = trim(($_SESSION['auth']['prenom'] ?? 'System') . ' ' . ($_SESSION['auth']['nom'] ?? 'Admin'));
 $adminEmail = $_SESSION['auth']['email'] ?? 'admin@site.com';
 
-
 $mode = $_GET['mode'] ?? '';
 $id   = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
 
     if (($_POST['csrf'] ?? '') !== $csrf) {
         $_SESSION['flash_error'] = "Sécurité: token invalide.";
@@ -48,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $action = $_POST['action'] ?? '';
 
-
+    // DELETE
     if ($action === 'delete') {
         $delId = (int)($_POST['id'] ?? 0);
 
@@ -66,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-
+    // SAVE (CREATE/UPDATE)
     if ($action === 'save') {
         $formId = (int)($_POST['id'] ?? 0);
 
@@ -78,8 +83,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $DateHeureFin        = trim($_POST['DateHeureFin'] ?? '');
         $NbBenevolesAttendus = trim($_POST['NbBenevolesAttendus'] ?? '');
         $MaterielNecessaire  = trim($_POST['MaterielNecessaire'] ?? '');
-        $IdPresse            = trim($_POST['IdPresse'] ?? '');
-
 
         if ($TitreMission === '') {
             $_SESSION['flash_error'] = "Le titre de mission est obligatoire.";
@@ -87,21 +90,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-
         $NbBenevolesAttendus = ($NbBenevolesAttendus !== '' ? (int)$NbBenevolesAttendus : null);
-        $IdPresse = ($IdPresse !== '' ? (int)$IdPresse : null);
 
+        $DateHeureDebut = ($DateHeureDebut !== '' ? str_replace('T', ' ', $DateHeureDebut) : null);
+        $DateHeureFin   = ($DateHeureFin !== '' ? str_replace('T', ' ', $DateHeureFin) : null);
 
-        $DateHeureDebut = ($DateHeureDebut !== '' ? $DateHeureDebut : null);
-        $DateHeureFin   = ($DateHeureFin !== '' ? $DateHeureFin : null);
-
-
+        // CREATE
         if ($formId === 0) {
             $sql = "INSERT INTO Mission
                 (TitreMission, DescriptionMission, CategorieMission, LieuMission,
-                 DateHeureDebut, DateHeureFin, NbBenevolesAttendus, MaterielNecessaire, IdPresse)
+                 DateHeureDebut, DateHeureFin, NbBenevolesAttendus, MaterielNecessaire)
                 VALUES
-                (:Titre, :Descr, :Cat, :Lieu, :Debut, :Fin, :Nb, :Mat, :IdPresse)";
+                (:Titre, :Descr, :Cat, :Lieu, :Debut, :Fin, :Nb, :Mat)";
             $st = $pdo->prepare($sql);
 
             try {
@@ -114,19 +114,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         ':Fin'   => $DateHeureFin,
                         ':Nb'    => $NbBenevolesAttendus,
                         ':Mat'   => ($MaterielNecessaire !== '' ? $MaterielNecessaire : null),
-                        ':IdPresse' => $IdPresse
                 ]);
+
                 $_SESSION['flash_success'] = "Mission ajoutée.";
                 header("Location: missions.php");
                 exit;
             } catch (PDOException $e) {
-                $_SESSION['flash_error'] = "Erreur SQL lors de l'ajout (vérifie IdPresse si rempli).";
+                $_SESSION['flash_error'] = "Erreur SQL lors de l'ajout.";
                 header("Location: missions.php");
                 exit;
             }
         }
 
-
+        // UPDATE
         $sql = "UPDATE Mission SET
                     TitreMission=:Titre,
                     DescriptionMission=:Descr,
@@ -135,8 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     DateHeureDebut=:Debut,
                     DateHeureFin=:Fin,
                     NbBenevolesAttendus=:Nb,
-                    MaterielNecessaire=:Mat,
-                    IdPresse=:IdPresse
+                    MaterielNecessaire=:Mat
                 WHERE IdMission=:Id";
         $st = $pdo->prepare($sql);
 
@@ -150,7 +149,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ':Fin'   => $DateHeureFin,
                     ':Nb'    => $NbBenevolesAttendus,
                     ':Mat'   => ($MaterielNecessaire !== '' ? $MaterielNecessaire : null),
-                    ':IdPresse' => $IdPresse,
                     ':Id'    => $formId
             ]);
 
@@ -158,14 +156,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("Location: missions.php");
             exit;
         } catch (PDOException $e) {
-            $_SESSION['flash_error'] = "Erreur SQL lors de la mise à jour (vérifie IdPresse si rempli).";
+            $_SESSION['flash_error'] = "Erreur SQL lors de la mise à jour.";
             header("Location: missions.php?mode=edit&id=".$formId);
             exit;
         }
     }
 }
 
-
+// EDIT LOAD
 $edit = null;
 if ($mode === 'edit' && $id > 0) {
     $st = $pdo->prepare("SELECT * FROM Mission WHERE IdMission = :id LIMIT 1");
@@ -179,7 +177,7 @@ if ($mode === 'edit' && $id > 0) {
     }
 }
 
-
+// LIST + SEARCH + PAGINATION
 $q = trim($_GET['q'] ?? '');
 $page = max(1, (int)($_GET['p'] ?? 1));
 $perPage = 10;
@@ -193,12 +191,10 @@ if ($q !== '') {
     $params[':q'] = "%$q%";
 }
 
-
 $st = $pdo->prepare("SELECT COUNT(*) c FROM Mission $where");
 $st->execute($params);
 $total = (int)($st->fetchColumn() ?: 0);
 $totalPages = max(1, (int)ceil($total / $perPage));
-
 
 $sql = "SELECT IdMission, TitreMission, CategorieMission, LieuMission, DateHeureDebut, DateHeureFin, NbBenevolesAttendus
         FROM Mission
@@ -212,7 +208,6 @@ $rows = $st->fetchAll(PDO::FETCH_ASSOC) ?: [];
 
 $flashSuccess = flash_get('flash_success');
 $flashError   = flash_get('flash_error');
-
 ?>
 <!doctype html>
 <html lang="fr">
@@ -225,7 +220,6 @@ $flashError   = flash_get('flash_error');
 <body>
 
 <div class="dash-shell">
-
 
     <aside class="dash-side">
         <div class="dash-side-top">
@@ -248,7 +242,7 @@ $flashError   = flash_get('flash_error');
             <a class="dash-link is-active" href="missions.php">Missions</a>
             <a class="dash-link" href="evenements.php">Événements</a>
             <a class="dash-link" href="presse.php">Presse</a>
-            <a class="dash-link" href="regions.php">Régions</a>
+            <a class="dash-link" href="formulaire.php">Formulaires</a>
             <a class="dash-link" href="partenaires.php">Partenaires</a>
             <a class="dash-link" href="financements.php">Dons / Financements</a>
 
@@ -256,7 +250,6 @@ $flashError   = flash_get('flash_error');
             <a class="dash-link" href="export.php?type=benevoles">Export CSV • Bénévoles</a>
             <a class="dash-link" href="export.php?type=missions">Export CSV • Missions</a>
             <a class="dash-link" href="export.php?type=evenements">Export CSV • Événements</a>
-
 
             <div class="dash-menu-section">SESSION</div>
             <a class="dash-link" href="../logout.php">Déconnexion</a>
@@ -273,7 +266,6 @@ $flashError   = flash_get('flash_error');
         </div>
     </aside>
 
-
     <main class="dash-main">
 
         <header class="dash-topbar">
@@ -287,21 +279,16 @@ $flashError   = flash_get('flash_error');
         </header>
 
         <?php if ($flashSuccess): ?>
-            <div class="dash-card" style="padding:12px 14px; border-color:#c7f0d6; background:#f0fff5;">
-                ✅ <?= h($flashSuccess) ?>
-            </div>
-            <div style="height:10px"></div>
+            <div class="dash-card ms-flash ms-flash-success">✅ <?= h($flashSuccess) ?></div>
+            <div class="ms-spacer-10"></div>
         <?php endif; ?>
 
         <?php if ($flashError): ?>
-            <div class="dash-card" style="padding:12px 14px; border-color:#ffd0d0; background:#fff5f5;">
-                ❌ <?= h($flashError) ?>
-            </div>
-            <div style="height:10px"></div>
+            <div class="dash-card ms-flash ms-flash-error">❌ <?= h($flashError) ?></div>
+            <div class="ms-spacer-10"></div>
         <?php endif; ?>
 
-
-        <section class="dash-card" style="margin-bottom:12px;">
+        <section class="dash-card ms-form-card">
             <div class="dash-card-head">
                 <div class="dash-card-title">
                     <?= $edit ? "Modifier la mission #".(int)$edit['IdMission'] : "Ajouter une mission" ?>
@@ -315,8 +302,8 @@ $flashError   = flash_get('flash_error');
                     <input type="hidden" name="action" value="save">
                     <input type="hidden" name="id" value="<?= $edit ? (int)$edit['IdMission'] : 0 ?>">
 
-                    <div style="display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:12px;">
-                        <div style="grid-column: span 2;">
+                    <div class="ms-grid-3">
+                        <div class="ms-span-2">
                             <label>Titre *</label>
                             <input class="dash-input" name="TitreMission" value="<?= h($edit['TitreMission'] ?? '') ?>" required>
                         </div>
@@ -326,9 +313,9 @@ $flashError   = flash_get('flash_error');
                             <input class="dash-input" name="CategorieMission" value="<?= h($edit['CategorieMission'] ?? '') ?>">
                         </div>
 
-                        <div style="grid-column: span 3;">
+                        <div class="ms-span-3">
                             <label>Description</label>
-                            <textarea class="dash-input" name="DescriptionMission" rows="3"><?= h($edit['DescriptionMission'] ?? '') ?></textarea>
+                            <textarea class="dash-input ms-textarea" name="DescriptionMission" rows="3"><?= h($edit['DescriptionMission'] ?? '') ?></textarea>
                         </div>
 
                         <div>
@@ -339,13 +326,13 @@ $flashError   = flash_get('flash_error');
                         <div>
                             <label>Date/Heure début</label>
                             <input class="dash-input" type="datetime-local" name="DateHeureDebut"
-                                   value="<?= h($edit['DateHeureDebut'] ?? '') ?>">
+                                   value="<?= h(dt_local_value($edit['DateHeureDebut'] ?? '')) ?>">
                         </div>
 
                         <div>
                             <label>Date/Heure fin</label>
                             <input class="dash-input" type="datetime-local" name="DateHeureFin"
-                                   value="<?= h($edit['DateHeureFin'] ?? '') ?>">
+                                   value="<?= h(dt_local_value($edit['DateHeureFin'] ?? '')) ?>">
                         </div>
 
                         <div>
@@ -354,19 +341,13 @@ $flashError   = flash_get('flash_error');
                                    value="<?= h($edit['NbBenevolesAttendus'] ?? '') ?>">
                         </div>
 
-                        <div style="grid-column: span 2;">
+                        <div class="ms-span-2">
                             <label>Matériel nécessaire</label>
                             <input class="dash-input" name="MaterielNecessaire" value="<?= h($edit['MaterielNecessaire'] ?? '') ?>">
                         </div>
-
-                        <div>
-                            <label>Id Presse (optionnel)</label>
-                            <input class="dash-input" type="number" min="1" name="IdPresse"
-                                   value="<?= h($edit['IdPresse'] ?? '') ?>" placeholder="ex: 3">
-                        </div>
                     </div>
 
-                    <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
+                    <div class="ms-actions">
                         <button class="dash-btn dash-btn-primary" type="submit">
                             <?= $edit ? "Enregistrer" : "Créer" ?>
                         </button>
@@ -379,16 +360,15 @@ $flashError   = flash_get('flash_error');
             </div>
         </section>
 
-
         <section class="dash-card dash-tablecard">
             <div class="dash-card-head">
                 <div class="dash-card-title">Liste des missions</div>
                 <div class="dash-card-meta"><?= (int)$total ?> résultat(s)</div>
             </div>
 
-            <div class="dash-card-body" style="padding-top:0;">
-                <form method="get" action="missions.php" style="display:flex; gap:10px; flex-wrap:wrap; margin:12px 0;">
-                    <input class="dash-input" style="flex:1; min-width:240px;" name="q" value="<?= h($q) ?>"
+            <div class="dash-card-body ms-table-body-padfix">
+                <form method="get" action="missions.php" class="ms-searchbar">
+                    <input class="dash-input ms-search-input" name="q" value="<?= h($q) ?>"
                            placeholder="Rechercher (titre, catégorie, lieu)">
                     <button class="dash-btn" type="submit">Rechercher</button>
                     <?php if ($q !== ''): ?>
@@ -423,7 +403,7 @@ $flashError   = flash_get('flash_error');
                                     <td><?= h($m['DateHeureDebut'] ?? '—') ?></td>
                                     <td><?= h($m['DateHeureFin'] ?? '—') ?></td>
                                     <td><?= (int)($m['NbBenevolesAttendus'] ?? 0) ?></td>
-                                    <td style="display:flex; gap:8px; flex-wrap:wrap;">
+                                    <td class="ms-table-actions">
                                         <a class="dash-btn" href="missions.php?mode=edit&id=<?= (int)$m['IdMission'] ?>">Modifier</a>
 
                                         <form method="post" action="missions.php" onsubmit="return confirm('Supprimer cette mission ?');">
@@ -440,13 +420,12 @@ $flashError   = flash_get('flash_error');
                     </table>
                 </div>
 
-
                 <?php if ($totalPages > 1): ?>
-                    <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; align-items:center;">
+                    <div class="ms-pagination">
                         <a class="dash-btn" href="missions.php?p=1<?= $q!=='' ? '&q='.urlencode($q) : '' ?>">« Début</a>
                         <a class="dash-btn" href="missions.php?p=<?= max(1,$page-1) ?><?= $q!=='' ? '&q='.urlencode($q) : '' ?>">‹ Préc</a>
 
-                        <span style="color:#6b7c98;">Page <?= (int)$page ?> / <?= (int)$totalPages ?></span>
+                        <span class="ms-pagination-info">Page <?= (int)$page ?> / <?= (int)$totalPages ?></span>
 
                         <a class="dash-btn" href="missions.php?p=<?= min($totalPages,$page+1) ?><?= $q!=='' ? '&q='.urlencode($q) : '' ?>">Suiv ›</a>
                         <a class="dash-btn" href="missions.php?p=<?= (int)$totalPages ?><?= $q!=='' ? '&q='.urlencode($q) : '' ?>">Fin »</a>
@@ -458,20 +437,6 @@ $flashError   = flash_get('flash_error');
 
     </main>
 </div>
-
-
-<style>
-    .dash-input{
-        width:100%;
-        background:#fff;
-        border:1px solid #e7edf6;
-        border-radius:12px;
-        padding:10px 10px;
-        outline:none;
-    }
-    label{ display:block; font-size:.85rem; color:#6b7c98; margin-bottom:6px; }
-    textarea.dash-input{ resize: vertical; }
-</style>
 
 </body>
 </html>

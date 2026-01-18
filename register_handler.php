@@ -55,7 +55,6 @@ if ($check->fetch()) {
 
 $hash = password_hash($pass, PASSWORD_DEFAULT);
 
-// INSERT : Role USER par défaut
 $sql = "INSERT INTO Benevole (
             NomBenevole,
             PrenomBenevole,

@@ -155,6 +155,77 @@ $flashError   = flash_get('flash_error');
     <title>Admin • Dons / Financements</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../newcss.css">
+
+    <style>
+        /* ===== CSS déplacé depuis les styles inline ===== */
+
+        .fp-flash {
+            padding: 12px 14px;
+        }
+        .fp-flash-success {
+            border-color: #c7f0d6;
+            background: #f0fff5;
+        }
+        .fp-flash-error {
+            border-color: #ffd0d0;
+            background: #fff5f5;
+        }
+        .fp-spacer-10 {
+            height: 10px;
+        }
+
+        .fp-form-card {
+            margin-bottom: 12px;
+        }
+
+        .fp-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0,1fr));
+            gap: 12px;
+        }
+        .fp-span-2 {
+            grid-column: span 2;
+        }
+
+        .fp-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .fp-searchbar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 12px 0;
+        }
+        .fp-search-input {
+            flex: 1;
+            min-width: 240px;
+        }
+
+        .fp-table-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .fp-table-body-padfix {
+            padding-top: 0;
+        }
+
+        .fp-pagination {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .fp-pagination-info {
+            color: #6b7c98;
+        }
+    </style>
 </head>
 <body>
 <div class="dash-shell">
@@ -181,8 +252,7 @@ $flashError   = flash_get('flash_error');
             <a class="dash-link" href="missions.php">Missions</a>
             <a class="dash-link" href="evenements.php">Événements</a>
             <a class="dash-link" href="presse.php">Presse</a>
-            <a class="dash-link" href="regions.php">Régions</a>
-            <a class="dash-link" href="partenaires.php">Partenaires</a>
+            <a class="dash-link" href="formulaire.php">Formulaires</a>
             <a class="dash-link is-active" href="financements.php">Dons / Financements</a>
 
             <div class="dash-menu-section">OUTILS</div>
@@ -211,7 +281,7 @@ $flashError   = flash_get('flash_error');
         <header class="dash-topbar">
             <div>
                 <h1 class="dash-h1">Dons / Financements</h1>
-                <p class="dash-sub">CRUD + recherche + pagination (source des partenaires).</p>
+
             </div>
             <div class="dash-top-actions">
                 <a class="dash-btn dash-btn-primary" href="financements.php">+ Nouveau financement</a>
@@ -219,17 +289,17 @@ $flashError   = flash_get('flash_error');
         </header>
 
         <?php if ($flashSuccess): ?>
-            <div class="dash-card" style="padding:12px 14px; border-color:#c7f0d6; background:#f0fff5;">✅ <?= h($flashSuccess) ?></div>
-            <div style="height:10px"></div>
+            <div class="dash-card fp-flash fp-flash-success">✅ <?= h($flashSuccess) ?></div>
+            <div class="fp-spacer-10"></div>
         <?php endif; ?>
 
         <?php if ($flashError): ?>
-            <div class="dash-card" style="padding:12px 14px; border-color:#ffd0d0; background:#fff5f5;">❌ <?= h($flashError) ?></div>
-            <div style="height:10px"></div>
+            <div class="dash-card fp-flash fp-flash-error">❌ <?= h($flashError) ?></div>
+            <div class="fp-spacer-10"></div>
         <?php endif; ?>
 
         <!-- FORM -->
-        <section class="dash-card" style="margin-bottom:12px;">
+        <section class="dash-card fp-form-card">
             <div class="dash-card-head">
                 <div class="dash-card-title"><?= $edit ? "Modifier le financement #".(int)$edit['IdFinancement'] : "Ajouter un financement" ?></div>
                 <div class="dash-card-meta"><?= $edit ? "Mode édition" : "Mode création" ?></div>
@@ -241,7 +311,7 @@ $flashError   = flash_get('flash_error');
                     <input type="hidden" name="action" value="save">
                     <input type="hidden" name="id" value="<?= $edit ? (int)$edit['IdFinancement'] : 0 ?>">
 
-                    <div style="display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:12px;">
+                    <div class="fp-grid-3">
                         <div>
                             <label>Montant (€) *</label>
                             <input class="dash-input" name="MontantFinancement" value="<?= h($edit['MontantFinancement'] ?? '') ?>" required placeholder="ex: 1500.00">
@@ -255,7 +325,7 @@ $flashError   = flash_get('flash_error');
                             <input class="dash-input" type="number" min="1900" max="2200" name="AnneeFinancement" value="<?= h($edit['AnneeFinancement'] ?? '') ?>" placeholder="<?= date('Y') ?>">
                         </div>
 
-                        <div style="grid-column: span 2;">
+                        <div class="fp-span-2">
                             <label>Usage prévu</label>
                             <input class="dash-input" name="UsagePrevu" value="<?= h($edit['UsagePrevu'] ?? '') ?>" placeholder="Matériel / Transport / ...">
                         </div>
@@ -265,7 +335,7 @@ $flashError   = flash_get('flash_error');
                         </div>
                     </div>
 
-                    <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
+                    <div class="fp-actions">
                         <button class="dash-btn dash-btn-primary" type="submit"><?= $edit ? "Enregistrer" : "Créer" ?></button>
                         <?php if ($edit): ?><a class="dash-btn" href="financements.php">Annuler</a><?php endif; ?>
                     </div>
@@ -280,9 +350,9 @@ $flashError   = flash_get('flash_error');
                 <div class="dash-card-meta"><?= (int)$total ?> résultat(s)</div>
             </div>
 
-            <div class="dash-card-body" style="padding-top:0;">
-                <form method="get" action="financements.php" style="display:flex; gap:10px; flex-wrap:wrap; margin:12px 0;">
-                    <input class="dash-input" style="flex:1; min-width:240px;" name="q" value="<?= h($q) ?>" placeholder="Rechercher (type, usage, financeur)">
+            <div class="dash-card-body fp-table-body-padfix">
+                <form method="get" action="financements.php" class="fp-searchbar">
+                    <input class="dash-input fp-search-input" name="q" value="<?= h($q) ?>" placeholder="Rechercher (type, usage, financeur)">
                     <button class="dash-btn" type="submit">Rechercher</button>
                     <?php if ($q !== ''): ?><a class="dash-btn" href="financements.php">Reset</a><?php endif; ?>
                 </form>
@@ -311,7 +381,7 @@ $flashError   = flash_get('flash_error');
                                 <td><?= h($f['AnneeFinancement'] ?? '—') ?></td>
                                 <td><?= h($f['UsagePrevu'] ?? '—') ?></td>
                                 <td><?= h($f['Financeur'] ?? '—') ?></td>
-                                <td style="display:flex; gap:8px; flex-wrap:wrap;">
+                                <td class="fp-table-actions">
                                     <a class="dash-btn" href="financements.php?mode=edit&id=<?= (int)$f['IdFinancement'] ?>">Modifier</a>
                                     <form method="post" action="financements.php" onsubmit="return confirm('Supprimer ce financement ? (Attention: partenaires liés)');">
                                         <input type="hidden" name="csrf" value="<?= h($csrf) ?>">
@@ -327,10 +397,10 @@ $flashError   = flash_get('flash_error');
                 </div>
 
                 <?php if ($totalPages > 1): ?>
-                    <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; align-items:center;">
+                    <div class="fp-pagination">
                         <a class="dash-btn" href="financements.php?p=1<?= $q!=='' ? '&q='.urlencode($q) : '' ?>">« Début</a>
                         <a class="dash-btn" href="financements.php?p=<?= max(1,$page-1) ?><?= $q!=='' ? '&q='.urlencode($q) : '' ?>">‹ Préc</a>
-                        <span style="color:#6b7c98;">Page <?= (int)$page ?> / <?= (int)$totalPages ?></span>
+                        <span class="fp-pagination-info">Page <?= (int)$page ?> / <?= (int)$totalPages ?></span>
                         <a class="dash-btn" href="financements.php?p=<?= min($totalPages,$page+1) ?><?= $q!=='' ? '&q='.urlencode($q) : '' ?>">Suiv ›</a>
                         <a class="dash-btn" href="financements.php?p=<?= (int)$totalPages ?><?= $q!=='' ? '&q='.urlencode($q) : '' ?>">Fin »</a>
                     </div>

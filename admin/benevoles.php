@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . "/../init.php";
 
-
 if (empty($_SESSION['auth'])) {
     $_SESSION['login_error'] = "Vous devez être connecté.";
     header("Location: ../login.php");
@@ -12,7 +11,6 @@ if (($_SESSION['auth']['role'] ?? '') !== 'ADMIN') {
     header("Location: ../index.php");
     exit;
 }
-
 
 function h($v) { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); }
 
@@ -33,7 +31,6 @@ $csrf = $_SESSION['csrf'];
 $adminName  = trim(($_SESSION['auth']['prenom'] ?? 'System') . ' ' . ($_SESSION['auth']['nom'] ?? 'Admin'));
 $adminEmail = $_SESSION['auth']['email'] ?? 'admin@site.com';
 
-
 $mode = $_GET['mode'] ?? ''; // 'edit' ou '' (list)
 $id   = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
@@ -47,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $action = $_POST['action'] ?? '';
-
 
     if ($action === 'delete') {
         $delId = (int)($_POST['id'] ?? 0);
@@ -72,7 +68,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-
     if ($action === 'save') {
         $formId = (int)($_POST['id'] ?? 0);
 
@@ -81,15 +76,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $Email          = trim($_POST['Email'] ?? '');
         $Role           = strtoupper(trim($_POST['Role'] ?? 'USER'));
 
-        $NumeroBenevole        = trim($_POST['NumeroBenevole'] ?? '');
-        $VilleBenevole         = trim($_POST['VilleBenevole'] ?? '');
-        $CompetenceBenevole    = trim($_POST['CompetenceBenevole'] ?? '');
-        $ProfessionBenevole    = trim($_POST['ProfessionBenevole'] ?? '');
-        $RegimeAlimentaire     = trim($_POST['RegimeAlimentaire'] ?? '');
-        $DateNaissanceBenevole = trim($_POST['DateNaissanceBenevole'] ?? '');
-        $OrigineGeographique   = trim($_POST['OrigineGeographique'] ?? '');
-        $DateInscriptionBenevole = trim($_POST['DateInscriptionBenevole'] ?? '');
-        $DomaineIntervention   = trim($_POST['DomaineIntervention'] ?? '');
+        $NumeroBenevole           = trim($_POST['NumeroBenevole'] ?? '');
+        $VilleBenevole            = trim($_POST['VilleBenevole'] ?? '');
+        $CompetenceBenevole       = trim($_POST['CompetenceBenevole'] ?? '');
+        $ProfessionBenevole       = trim($_POST['ProfessionBenevole'] ?? '');
+        $RegimeAlimentaire        = trim($_POST['RegimeAlimentaire'] ?? '');
+        $DateNaissanceBenevole    = trim($_POST['DateNaissanceBenevole'] ?? '');
+        $OrigineGeographique      = trim($_POST['OrigineGeographique'] ?? '');
+        $DateInscriptionBenevole  = trim($_POST['DateInscriptionBenevole'] ?? '');
+        $DomaineIntervention      = trim($_POST['DomaineIntervention'] ?? '');
 
         $NewPassword = $_POST['NewPassword'] ?? ''; // si vide: pas de changement (update)
 
@@ -107,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!in_array($Role, ['USER','ADMIN'], true)) $Role = 'USER';
 
         // dates: si vide => NULL
-        $DateNaissanceBenevole = ($DateNaissanceBenevole !== '') ? $DateNaissanceBenevole : null;
+        $DateNaissanceBenevole   = ($DateNaissanceBenevole !== '') ? $DateNaissanceBenevole : null;
         $DateInscriptionBenevole = ($DateInscriptionBenevole !== '') ? $DateInscriptionBenevole : null;
 
         // Create
@@ -133,52 +128,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             try {
                 $st->execute([
-                        ':Nom' => $NomBenevole,
-                        ':Prenom' => $PrenomBenevole,
-                        ':Numero' => ($NumeroBenevole !== '' ? $NumeroBenevole : null),
-                        ':Ville' => ($VilleBenevole !== '' ? $VilleBenevole : null),
-                        ':Competence' => ($CompetenceBenevole !== '' ? $CompetenceBenevole : null),
-                        ':Profession' => ($ProfessionBenevole !== '' ? $ProfessionBenevole : null),
-                        ':Regime' => ($RegimeAlimentaire !== '' ? $RegimeAlimentaire : null),
-                        ':DateNaissance' => $DateNaissanceBenevole,
-                        ':Origine' => ($OrigineGeographique !== '' ? $OrigineGeographique : null),
-                        ':DateInscription' => $DateInscriptionBenevole,
-                        ':Domaine' => ($DomaineIntervention !== '' ? $DomaineIntervention : null),
-                        ':Email' => $Email,
-                        ':Password' => $hash,
-                        ':Role' => $Role
+                        ':Nom'            => $NomBenevole,
+                        ':Prenom'         => $PrenomBenevole,
+                        ':Numero'         => ($NumeroBenevole !== '' ? $NumeroBenevole : null),
+                        ':Ville'          => ($VilleBenevole !== '' ? $VilleBenevole : null),
+                        ':Competence'     => ($CompetenceBenevole !== '' ? $CompetenceBenevole : null),
+                        ':Profession'     => ($ProfessionBenevole !== '' ? $ProfessionBenevole : null),
+                        ':Regime'         => ($RegimeAlimentaire !== '' ? $RegimeAlimentaire : null),
+                        ':DateNaissance'  => $DateNaissanceBenevole,
+                        ':Origine'        => ($OrigineGeographique !== '' ? $OrigineGeographique : null),
+                        ':DateInscription'=> $DateInscriptionBenevole,
+                        ':Domaine'        => ($DomaineIntervention !== '' ? $DomaineIntervention : null),
+                        ':Email'          => $Email,
+                        ':Password'       => $hash,
+                        ':Role'           => $Role
                 ]);
                 $_SESSION['flash_success'] = "Bénévole ajouté.";
                 header("Location: benevoles.php");
                 exit;
             } catch (PDOException $e) {
-                // duplicate email
                 $_SESSION['flash_error'] = "Erreur: email déjà utilisé ou problème SQL.";
                 header("Location: benevoles.php");
                 exit;
             }
         }
 
+        // Update
         $fields = "NomBenevole=:Nom, PrenomBenevole=:Prenom, NumeroBenevole=:Numero, VilleBenevole=:Ville,
                    CompetenceBenevole=:Competence, ProfessionBenevole=:Profession, RegimeAlimentaire=:Regime,
                    DateNaissanceBenevole=:DateNaissance, OrigineGeographique=:Origine, DateInscriptionBenevole=:DateInscription,
                    DomaineIntervention=:Domaine, Email=:Email, Role=:Role";
 
         $params = [
-                ':Nom' => $NomBenevole,
-                ':Prenom' => $PrenomBenevole,
-                ':Numero' => ($NumeroBenevole !== '' ? $NumeroBenevole : null),
-                ':Ville' => ($VilleBenevole !== '' ? $VilleBenevole : null),
-                ':Competence' => ($CompetenceBenevole !== '' ? $CompetenceBenevole : null),
-                ':Profession' => ($ProfessionBenevole !== '' ? $ProfessionBenevole : null),
-                ':Regime' => ($RegimeAlimentaire !== '' ? $RegimeAlimentaire : null),
+                ':Nom'           => $NomBenevole,
+                ':Prenom'        => $PrenomBenevole,
+                ':Numero'        => ($NumeroBenevole !== '' ? $NumeroBenevole : null),
+                ':Ville'         => ($VilleBenevole !== '' ? $VilleBenevole : null),
+                ':Competence'    => ($CompetenceBenevole !== '' ? $CompetenceBenevole : null),
+                ':Profession'    => ($ProfessionBenevole !== '' ? $ProfessionBenevole : null),
+                ':Regime'        => ($RegimeAlimentaire !== '' ? $RegimeAlimentaire : null),
                 ':DateNaissance' => $DateNaissanceBenevole,
-                ':Origine' => ($OrigineGeographique !== '' ? $OrigineGeographique : null),
-                ':DateInscription' => $DateInscriptionBenevole,
-                ':Domaine' => ($DomaineIntervention !== '' ? $DomaineIntervention : null),
-                ':Email' => $Email,
-                ':Role' => $Role,
-                ':Id' => $formId
+                ':Origine'       => ($OrigineGeographique !== '' ? $OrigineGeographique : null),
+                ':DateInscription'=> $DateInscriptionBenevole,
+                ':Domaine'       => ($DomaineIntervention !== '' ? $DomaineIntervention : null),
+                ':Email'         => $Email,
+                ':Role'          => $Role,
+                ':Id'            => $formId
         ];
 
         if (trim($NewPassword) !== '') {
@@ -202,7 +197,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-
 $edit = null;
 if ($mode === 'edit' && $id > 0) {
     $st = $pdo->prepare("SELECT * FROM Benevole WHERE IdBenevole = :id LIMIT 1");
@@ -214,7 +208,6 @@ if ($mode === 'edit' && $id > 0) {
         exit;
     }
 }
-
 
 $q = trim($_GET['q'] ?? '');
 $page = max(1, (int)($_GET['p'] ?? 1));
@@ -229,13 +222,11 @@ if ($q !== '') {
     $params[':q'] = "%$q%";
 }
 
-// total
 $st = $pdo->prepare("SELECT COUNT(*) c FROM Benevole $where");
 $st->execute($params);
 $total = (int)($st->fetchColumn() ?: 0);
 $totalPages = max(1, (int)ceil($total / $perPage));
 
-// rows
 $sql = "SELECT IdBenevole, PrenomBenevole, NomBenevole, Email, VilleBenevole, DateInscriptionBenevole, Role
         FROM Benevole
         $where
@@ -248,7 +239,6 @@ $rows = $st->fetchAll(PDO::FETCH_ASSOC) ?: [];
 
 $flashSuccess = flash_get('flash_success');
 $flashError   = flash_get('flash_error');
-
 ?>
 <!doctype html>
 <html lang="fr">
@@ -283,15 +273,14 @@ $flashError   = flash_get('flash_error');
             <a class="dash-link" href="missions.php">Missions</a>
             <a class="dash-link" href="evenements.php">Événements</a>
             <a class="dash-link" href="presse.php">Presse</a>
-            <a class="dash-link" href="regions.php">Régions</a>
-            <a class="dash-link" href="partenaires.php">Partenaires</a>
+            <a class="dash-link" href="formulaire.php">Formulaires</a>
+
             <a class="dash-link" href="financements.php">Dons / Financements</a>
 
             <div class="dash-menu-section">OUTILS</div>
             <a class="dash-link" href="export.php?type=benevoles">Export CSV • Bénévoles</a>
             <a class="dash-link" href="export.php?type=missions">Export CSV • Missions</a>
             <a class="dash-link" href="export.php?type=evenements">Export CSV • Événements</a>
-
 
             <div class="dash-menu-section">SESSION</div>
             <a class="dash-link" href="../logout.php">Déconnexion</a>
@@ -308,33 +297,30 @@ $flashError   = flash_get('flash_error');
         </div>
     </aside>
 
-
     <main class="dash-main">
 
         <header class="dash-topbar">
             <div>
                 <h1 class="dash-h1">Gestion des bénévoles</h1>
-                <p class="dash-sub">Ajouter, modifier, rechercher et gérer les comptes (USER / ADMIN).</p>
-            </div>
+                 </div>
             <div class="dash-top-actions">
                 <a class="dash-btn dash-btn-primary" href="benevoles.php">+ Nouveau bénévole</a>
             </div>
         </header>
 
         <?php if ($flashSuccess): ?>
-            <div class="dash-card" style="padding:12px 14px; border-color:#c7f0d6; background:#f0fff5;">
+            <div class="dash-card dash-flash dash-flash-success">
                 ✅ <?= h($flashSuccess) ?>
             </div>
-            <div style="height:10px"></div>
+            <div class="dash-spacer-10"></div>
         <?php endif; ?>
 
         <?php if ($flashError): ?>
-            <div class="dash-card" style="padding:12px 14px; border-color:#ffd0d0; background:#fff5f5;">
+            <div class="dash-card dash-flash dash-flash-error">
                 ❌ <?= h($flashError) ?>
             </div>
-            <div style="height:10px"></div>
+            <div class="dash-spacer-10"></div>
         <?php endif; ?>
-
 
         <section class="dash-card" style="margin-bottom:12px;">
             <div class="dash-card-head">
@@ -350,7 +336,7 @@ $flashError   = flash_get('flash_error');
                     <input type="hidden" name="action" value="save">
                     <input type="hidden" name="id" value="<?= $edit ? (int)$edit['IdBenevole'] : 0 ?>">
 
-                    <div style="display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:12px;">
+                    <div class="dash-form-grid">
                         <div>
                             <label>Prénom *</label>
                             <input class="dash-input" name="PrenomBenevole" value="<?= h($edit['PrenomBenevole'] ?? '') ?>" required>
@@ -407,7 +393,7 @@ $flashError   = flash_get('flash_error');
                             <input class="dash-input" type="date" name="DateInscriptionBenevole" value="<?= h($edit['DateInscriptionBenevole'] ?? '') ?>">
                         </div>
 
-                        <div style="grid-column: span 2;">
+                        <div class="dash-col-span-2">
                             <label>Domaine intervention</label>
                             <input class="dash-input" name="DomaineIntervention" value="<?= h($edit['DomaineIntervention'] ?? '') ?>">
                         </div>
@@ -418,7 +404,7 @@ $flashError   = flash_get('flash_error');
                         </div>
                     </div>
 
-                    <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
+                    <div class="dash-form-actions">
                         <button class="dash-btn dash-btn-primary" type="submit">
                             <?= $edit ? "Enregistrer" : "Créer" ?>
                         </button>
@@ -431,7 +417,6 @@ $flashError   = flash_get('flash_error');
             </div>
         </section>
 
-
         <section class="dash-card dash-tablecard">
             <div class="dash-card-head">
                 <div class="dash-card-title">Liste des bénévoles</div>
@@ -439,8 +424,8 @@ $flashError   = flash_get('flash_error');
             </div>
 
             <div class="dash-card-body" style="padding-top:0;">
-                <form method="get" action="benevoles.php" style="display:flex; gap:10px; flex-wrap:wrap; margin:12px 0;">
-                    <input class="dash-input" style="flex:1; min-width:240px;" name="q" value="<?= h($q) ?>" placeholder="Rechercher (nom, prénom, email, ville)">
+                <form method="get" action="benevoles.php" class="dash-searchbar">
+                    <input class="dash-input dash-search-input" name="q" value="<?= h($q) ?>" placeholder="Rechercher (nom, prénom, email, ville)">
                     <button class="dash-btn" type="submit">Rechercher</button>
                     <?php if ($q !== ''): ?>
                         <a class="dash-btn" href="benevoles.php">Reset</a>
@@ -472,7 +457,7 @@ $flashError   = flash_get('flash_error');
                                     <td><?= h($b['VilleBenevole'] ?? '—') ?></td>
                                     <td><?= h($b['DateInscriptionBenevole'] ?? '—') ?></td>
                                     <td><?= h($b['Role'] ?? 'USER') ?></td>
-                                    <td style="display:flex; gap:8px; flex-wrap:wrap;">
+                                    <td class="dash-row-actions">
                                         <a class="dash-btn" href="benevoles.php?mode=edit&id=<?= (int)$b['IdBenevole'] ?>">Modifier</a>
 
                                         <form method="post" action="benevoles.php" onsubmit="return confirm('Supprimer ce bénévole ?');">
@@ -489,17 +474,13 @@ $flashError   = flash_get('flash_error');
                     </table>
                 </div>
 
-
                 <?php if ($totalPages > 1): ?>
-                    <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; align-items:center;">
-                        <?php
-                        $base = "benevoles.php";
-                        $qs = ($q !== '') ? "&q=" . urlencode($q) : "";
-                        ?>
+                    <div class="dash-pagination">
+                        <?php $base = "benevoles.php"; ?>
                         <a class="dash-btn" href="<?= $base ?>?p=1<?= $q!=='' ? '&q='.urlencode($q) : '' ?>">« Début</a>
                         <a class="dash-btn" href="<?= $base ?>?p=<?= max(1,$page-1) ?><?= $q!=='' ? '&q='.urlencode($q) : '' ?>">‹ Préc</a>
 
-                        <span style="color:#6b7c98;">Page <?= (int)$page ?> / <?= (int)$totalPages ?></span>
+                        <span class="dash-pagination-info">Page <?= (int)$page ?> / <?= (int)$totalPages ?></span>
 
                         <a class="dash-btn" href="<?= $base ?>?p=<?= min($totalPages,$page+1) ?><?= $q!=='' ? '&q='.urlencode($q) : '' ?>">Suiv ›</a>
                         <a class="dash-btn" href="<?= $base ?>?p=<?= (int)$totalPages ?><?= $q!=='' ? '&q='.urlencode($q) : '' ?>">Fin »</a>
@@ -511,9 +492,6 @@ $flashError   = flash_get('flash_error');
 
     </main>
 </div>
-
-
-
 
 </body>
 </html>

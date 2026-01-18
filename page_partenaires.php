@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . '/init.php';
+?>
 <!doctype html>
 <html lang="fr">
 <head>
@@ -6,19 +9,6 @@
     <title>Nos Partenaires — EGEE</title>
     <link rel="icon" type="image/png" href="assets/image/favicon.png">
     <link rel="stylesheet" href="newcss.css">
-    <style>
-        /* Styles spécifiques pour le carrousel qui n'étaient pas dans le global */
-        .carrousel-container { position: relative; overflow: hidden; padding: 2rem 0; background: #fff; }
-        .carrousel { display: flex; transition: transform 0.5s ease-in-out; gap: 20px; }
-        .carrousel a { min-width: calc(25% - 20px); flex-shrink: 0; display: flex; justify-content: center; }
-        .carrousel img { max-height: 80px; width: auto; filter: grayscale(100%); transition: 0.3s; opacity: 0.7; }
-        .carrousel img:hover { filter: grayscale(0%); opacity: 1; }
-        .carrousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: var(--blue); color: white; border: none; padding: 10px; cursor: pointer; z-index: 10; border-radius: 50%; width: 40px; height: 40px; }
-        .prev { left: 10px; } .next { right: 10px; }
-        .carrousel-dots { text-align: center; margin-top: 1rem; }
-        .carrousel-dots span { display: inline-block; width: 10px; height: 10px; background: #ccc; margin: 0 5px; border-radius: 50%; cursor: pointer; }
-        .carrousel-dots span.active { background: var(--orange); }
-    </style>
 </head>
 
 <body>
@@ -46,7 +36,8 @@ include('header.php');
             <p>Nos missions sont fondées sur une logique de <strong>complémentarité avec l’action des organismes institutionnels ou privés</strong>.</p>
             <p>Grâce à nos <strong>1 800 conseillers</strong>, nous faisons vivre nos partenariats avec les acteurs socio-économiques des territoires grâce à des relations de proximité.</p>
         </div>
-        <div class="mission-why" style="margin-left: 0;"> <span class="label">Engagement</span>
+        <div class="mission-why prtnr-why">
+            <span class="label">Engagement</span>
             <p>Proximité, confiance et bienveillance au profit des porteurs de projets.</p>
         </div>
     </div>
@@ -74,24 +65,40 @@ include('header.php');
     </div>
 </section>
 
-<section class="videos"> <div class="container">
-    <h2 style="text-align: center; margin-bottom: 2rem;">Ils nous font confiance</h2>
-    <div class="carrousel-container">
-        <div class="carrousel">
-            <a href="https://www.afpa.fr" target="_blank"><img src="assets/image/logo-partenaires/AFPA-1.png" alt="AFPA"></a>
-            <a href="https://www.apec.fr" target="_blank"><img src="assets/image/logo-partenaires/APEC.jpg" alt="APEC"></a>
-            <a href="https://www.banque-france.fr" target="_blank"><img src="assets/image/logo-partenaires/BANQUE-DE-FRANCE-1-1.jpg" alt="Banque de France"></a>
-            <a href="https://www.bpifrance.fr" target="_blank"><img src="assets/image/logo-partenaires/BPI-FRANCE-1.png" alt="BPI France"></a>
-            <a href="https://www.cci.fr" target="_blank"><img src="assets/image/logo-partenaires/CCI-FRANCE-1.png" alt="CCI France"></a>
-            <a href="https://www.francetravail.fr" target="_blank"><img src="assets/image/logo-partenaires/Capture-decran-2025-10-21-182252.png" alt="France Travail"></a>
-        </div>
-        <button class="carrousel-btn prev">&#10094;</button>
-        <button class="carrousel-btn next">&#10095;</button>
-        <div class="carrousel-dots"></div>
+<!-- CARROUSEL -->
+<div class="carrousel-container">
+    <div class="carrousel">
+        <a href="https://www.afpa.fr" target="_blank"><img src="assets/image/logo-partenaires/AFPA-1.png" alt="AFPA"></a>
+        <a href="https://www.apec.fr" target="_blank"><img src="assets/image/logo-partenaires/APEC.jpg" alt="APEC"></a>
+        <a href="https://www.banque-france.fr" target="_blank"><img src="assets/image/logo-partenaires/BANQUE-DE-FRANCE-1-1.jpg" alt="Banque de France"></a>
+        <a href="https://www.bpifrance.fr" target="_blank"><img src="assets/image/logo-partenaires/BPI-FRANCE-1.png" alt="BPI France"></a>
+        <a href="https://www.cci.fr" target="_blank"><img src="assets/image/logo-partenaires/CCI-FRANCE-1.png" alt="CCI France"></a>
+        <a href="https://www.cip-idf.org" target="_blank"><img src="assets/image/logo-partenaires/CIP-1.jpg" alt="CIP"></a>
+        <a href="https://www.cpme.fr" target="_blank"><img src="assets/image/logo-partenaires/CPME.jpg" alt="CPME"></a>
+        <a href="https://www.energiejeunes.fr" target="_blank"><img src="assets/image/logo-partenaires/Energie-Jeunes.jpg" alt="Énergie Jeunes"></a>
+        <a href="https://www.epide.fr" target="_blank"><img src="assets/image/logo-partenaires/EPIDE.jpg" alt="EPIDE"></a>
+        <a href="https://www.deuxiemechance.org/" target="_blank"><img src="assets/image/logo-partenaires/Fondation-de-la-2eme-Chance.png" alt="Fondation de la 2e Chance"></a>
+        <a href="https://www.franceactive.org" target="_blank"><img src="assets/image/logo-partenaires/France-ACTIVE-.png" alt="France Active"></a>
+        <a href="https://www.francebenevolat.org" target="_blank"><img src="assets/image/logo-partenaires/France-Benevolat.png" alt="France Bénévolat"></a>
+        <a href="https://www.francetravail.fr" target="_blank"><img src="assets/image/logo-partenaires/Capture-decran-2025-10-21-182252.png" alt="France Travail"></a>
+        <a href="https://www.ag2rlamondiale.fr" target="_blank"><img src="assets/image/logo-partenaires/Logo-AG2R-LA-MONDIALE-scaled.jpg" alt="AG2R La Mondiale"></a>
+        <a href="https://lementorat.fr/" target="_blank"><img src="assets/image/logo-partenaires/Logo-Collectif-du-Mentorat-1.png" alt="Collectif du Mentorat"></a>
+        <a href="https://www.sports.gouv.fr" target="_blank"><img src="assets/image/logo-partenaires/MINISTERE-DES-SPORTS-ET-DE-LA-JEUNESSE.jpg" alt="Ministère des Sports et de la Jeunesse"></a>
+        <a href="https://www.unml.info" target="_blank"><img src="assets/image/logo-partenaires/Reseaux-missions-locales.jpg" alt="Réseau des Missions Locales"></a>
+        <a href="https://www.education.gouv.fr/" target="_blank"><img src="assets/image/logo-partenaires/Capture-decran-2025-10-21-182019.png" alt="Ministère de l'Éducation nationale"></a>
+        <a href="https://www.egalite-femmes-hommes.gouv.fr/" target="_blank"><img src="assets/image/logo-partenaires/Capture-decran-2025-10-21-182149.png" alt="Égalité Femmes-Hommes"></a>
     </div>
+
+    <!-- Boutons -->
+    <button class="carrousel-btn prev">&#10094;</button>
+    <button class="carrousel-btn next">&#10095;</button>
+
+    <!-- Points -->
+    <div class="carrousel-dots"></div>
 </div>
-</section>
-<?php include('footer.php'); ?>
-<script src = "menuBuger.js"> </script>
+
+<?php include 'footer.php'; ?>
+
+<script src="assets/js/carrousel.js"></script>
 </body>
 </html>

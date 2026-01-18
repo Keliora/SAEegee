@@ -96,6 +96,18 @@ a {
     width: 100%;
 }
 
+/* ----- Menu burger : utilisateur connecté ----- */
+.main-nav .nav-user {
+    text-align: center;
+    padding: 16px 0;
+}
+
+.main-nav .nav-user .header-user {
+    display: block;
+    width: 100%;
+}
+
+
 /* CTA + BURGER */
 .header-cta {
     display: flex;
@@ -758,6 +770,95 @@ h2 {
     fill: #FF6923;
     stroke-width: 2;
 }
+/* ===========================
+   PARTENAIRES
+=========================== */
+
+.section-partenaires {
+    padding: 80px 0;
+    background: #f9fafb;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 2rem;
+    margin-bottom: 12px;
+}
+
+.section-description {
+    max-width: 700px;
+    margin: 0 auto 40px;
+    color: #555;
+}
+
+/* CARROUSEL */
+.carrousel-container {
+    position: relative;
+    overflow: hidden;
+    max-width: 100%;
+    margin-top: 40px;
+}
+
+.carrousel {
+    display: flex;
+    gap: 40px;
+    transition: transform 0.5s ease-in-out;
+    align-items: center;
+}
+
+.carrousel a {
+    flex: 0 0 auto;
+}
+
+.carrousel img {
+    max-height: 80px;
+    max-width: 160px;
+    object-fit: contain;
+    filter: grayscale(100%);
+    transition: all 0.3s ease;
+}
+
+.carrousel img:hover {
+    filter: grayscale(0%);
+    transform: scale(1.05);
+}
+
+/* Boutons */
+.carrousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #fff;
+    border: none;
+    font-size: 2rem;
+    padding: 5px 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    z-index: 10;
+}
+
+.carrousel-btn.prev { left: 10px; }
+.carrousel-btn.next { right: 10px; }
+
+/* Points */
+.carrousel-dots {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 8px;
+}
+
+.carrousel-dots span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ccc;
+    cursor: pointer;
+}
+
+.carrousel-dots span.active {
+    background: #000;
+}
 
 /* ===========================
    PAGE LOGIN
@@ -1073,8 +1174,26 @@ h2 {
 }
 /* =========================
    ADMIN DASHBOARD
-   à coller dans newcss.css
+
 ========================= */
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background-color: #1f2937;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-back:hover {
+    background-color: #374151;
+}
 
 .dash-shell{
     display:grid;
@@ -1084,7 +1203,7 @@ h2 {
 }
 
 .dash-side{
-    background: #0f1f35;
+    background: #082d7e;
     color: #eaf0ff;
     display:flex;
     flex-direction:column;
@@ -1310,6 +1429,37 @@ h2 {
     color:#1f2a44;
     white-space: nowrap;
 }
+
+/* Utilisé dans evenements.php */
+.dash-col-span-3 { grid-column: span 3; }
+/* Fianancement */
+.dash-mb-12 { margin-bottom: 12px; }
+.dash-pt-0 { padding-top: 0; }
+
+/* Dashboard spacing helpers */
+.admin-mt-18 { margin-top: 18px; }
+.admin-mt-16 { margin-top: 16px; }
+
+/* Missions */
+.dash-col-span-3 { grid-column: span 3; }
+.dash-textarea { resize: vertical; }
+.dash-mb-12 { margin-bottom: 12px; }
+.dash-pt-0 { padding-top: 0; }
+
+
+/* Partenaires */
+
+.dash-col-span-3 { grid-column: span 3; }
+.dash-textarea { resize: vertical; }
+.dash-mb-12 { margin-bottom: 12px; }
+.dash-pt-0 { padding-top: 0; }
+
+/*Presse */
+.dash-helptext { color:#6b7c98; display:block; margin-top:6px; font-size: 12px; }
+
+
+
+
 .dash-td-empty{ padding: 14px 8px; color:#6b7c98; }
 
 @media (max-width: 1100px){
@@ -1688,5 +1838,930 @@ label {
     min-width:52px;
     text-align:right;
 }
+
+/* =========================
+   PAGE PRESSE (depuis page_presse.php)
+   -> À coller en bas de newcss.css
+========================= */
+
+/* Hero de la presse : forcer 1 colonne sans inline-style */
+.hero-single {
+    grid-template-columns: 1fr;
+}
+
+/* Espacement global de la page presse */
+.press-page {
+    padding: 2rem 0;
+}
+
+/* Barre recherche + filtre (remplace: display:flex, gap, margin-bottom) */
+.recherche_article {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* Input recherche (remplace padding/border/radius/flex-grow) */
+.recherche_input {
+    padding: 0.5rem;
+    border: 1px solid var(--grey);
+    border-radius: 12px;
+    flex: 1;
+    min-width: 220px;
+    background: #fff;
+    outline: none;
+}
+
+.recherche_input:focus {
+    border-color: rgba(0, 80, 164, .45);
+    box-shadow: 0 0 0 4px rgba(0, 80, 164, .12);
+}
+
+/* Select filtre (remplace cursor:pointer inline) */
+.filtre_select {
+    cursor: pointer;
+}
+
+/* Container des articles : 2 colonnes + gap */
+.large_article_container {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+/* Base article : flex + align + gap */
+.press-article {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+/* Article 1 (grand) -> span 2 */
+.press-article--featured {
+    grid-column: 1 / -1;
+}
+
+/* Article 4 (wide) -> span 2 */
+.press-article--wide {
+    grid-column: 1 / -1;
+}
+
+/* Images */
+.press-img {
+    max-width: 150px;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+/* Images plus grandes */
+.press-img--featured,
+.press-img--wide {
+    max-width: 250px;
+}
+
+/* Liens crédits */
+.press-credit {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+/* Bouton Lire l'article : margin-top */
+.press-btn {
+    margin-top: 0.5rem;
+    display: inline-block;
+}
+
+/* ✅ RESPONSIVE */
+@media (max-width: 900px) {
+    .large_article_container {
+        grid-template-columns: 1fr;
+    }
+
+    .press-article--featured,
+    .press-article--wide {
+        grid-column: auto;
+    }
+}
+
+@media (max-width: 600px) {
+    .press-article {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .press-img,
+    .press-img--featured,
+    .press-img--wide {
+        max-width: 100%;
+    }
+}
+
+/* =========================
+   ADMIN - BÉNÉVOLES (benevoles.php)
+========================= */
+
+.dash-hero-singlecol {
+    grid-template-columns: 1fr;
+}
+
+/* Flash messages */
+.dash-flash {
+    padding: 12px 14px;
+}
+
+.dash-flash-success {
+    border-color: #c7f0d6;
+    background: #f0fff5;
+}
+
+.dash-flash-error {
+    border-color: #ffd0d0;
+    background: #fff5f5;
+}
+
+.dash-spacer-10 {
+    height: 10px;
+}
+
+/* Form layout */
+.dash-form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.dash-col-span-2 {
+    grid-column: span 2;
+}
+
+.dash-form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+/* Table search bar */
+.dash-searchbar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 12px 0;
+}
+
+.dash-search-input {
+    flex: 1;
+    min-width: 240px;
+}
+
+/* Actions buttons in table */
+.dash-row-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* Pagination */
+.dash-pagination {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.dash-pagination-info {
+    color: #6b7c98;
+}
+
+/* Responsive */
+@media (max-width: 980px) {
+    .dash-form-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .dash-form-grid {
+        grid-template-columns: 1fr;
+    }
+    .dash-col-span-2 {
+        grid-column: auto;
+    }
+}
+
+/* =========================
+   PAGE DON (HelloAsso only)
+========================= */
+
+.hero-single {
+    grid-template-columns: 1fr;
+}
+
+.don-page{
+    padding: 2.6rem 0 3rem;
+    background: #f5f7ff;
+}
+
+.don-page-card{
+    max-width: 860px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    padding: 1.6rem 1.6rem;
+    text-align: center;
+    border: 1px solid #eef3fb;
+}
+
+.don-page-card h2{
+    font-size: 1.35rem;
+    margin-bottom: .6rem;
+    color: #111827;
+}
+
+.don-page-text{
+    color: var(--text-muted);
+    font-size: 0.98rem;
+    margin: 0 auto 1.2rem;
+    max-width: 52rem;
+}
+
+.don-page-actions{
+    display: flex;
+    justify-content: center;
+    gap: .8rem;
+    flex-wrap: wrap;
+}
+
+.don-page-note{
+    margin-top: 1rem;
+    color: var(--text-muted);
+    font-size: .9rem;
+}
+
+/* =========================
+   PAGE DON — sections utiles
+========================= */
+
+.hero-single{ grid-template-columns: 1fr; }
+
+/* Badges confiance */
+.trust-badges{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.5rem;
+    margin-top:1rem;
+}
+.trust-badge{
+    display:inline-flex;
+    align-items:center;
+    padding:.45rem .7rem;
+    border:1px solid #e6edf7;
+    background:#fff;
+    border-radius:999px;
+    font-size:.9rem;
+    color:#374151;
+}
+
+/* Sections */
+.don-section{
+    padding: 3rem 0;
+}
+.section-head{
+    text-align:center;
+    margin-bottom: 1.6rem;
+}
+.section-head h2{
+    margin:0 0 .4rem;
+    font-size: 1.7rem;
+}
+.section-head p{
+    margin:0 auto;
+    max-width: 58ch;
+    color: var(--text-muted);
+}
+
+/* Impact cards */
+.impact-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+.impact-card{
+    background:#fff;
+    border:1px solid #eef3fb;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    padding: 1.2rem 1.1rem;
+}
+.impact-icon{
+    font-size: 1.6rem;
+    margin-bottom:.4rem;
+}
+.impact-card h3{
+    margin:.2rem 0 .4rem;
+    font-size: 1.1rem;
+}
+.impact-card p{
+    margin:0;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* CTA card (HelloAsso) */
+.don-page{
+    padding: 2.6rem 0 3rem;
+    background: #f5f7ff;
+}
+.don-page-card{
+    max-width: 860px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    padding: 1.6rem 1.6rem;
+    text-align: center;
+    border: 1px solid #eef3fb;
+}
+.don-page-card h2{
+    font-size: 1.35rem;
+    margin-bottom: .6rem;
+    color: #111827;
+}
+.don-page-text{
+    color: var(--text-muted);
+    font-size: 0.98rem;
+    margin: 0 auto 1.2rem;
+    max-width: 52rem;
+}
+.don-page-actions{
+    display:flex;
+    justify-content:center;
+    gap:.8rem;
+    flex-wrap:wrap;
+}
+.don-microcopy{
+    margin-top: 1rem;
+    display:flex;
+    justify-content:center;
+    gap: .8rem;
+    flex-wrap:wrap;
+    color: #374151;
+    font-size: .92rem;
+}
+
+/* Split transparence */
+.split{
+    display:grid;
+    grid-template-columns: 1.2fr .8fr;
+    gap: 1.2rem;
+    align-items: start;
+}
+.check-list{
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+.check-list li{
+    position: relative;
+    padding-left: 1.6rem;
+    margin: .5rem 0;
+    color: #374151;
+}
+.check-list li::before{
+    content:"✓";
+    position:absolute;
+    left:0;
+    top:0;
+    font-weight:700;
+}
+
+/* Encadré */
+.info-box{
+    background:#fff;
+    border:1px solid #eef3fb;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    padding: 1.2rem 1.1rem;
+}
+.info-box h3{ margin:0 0 .4rem; }
+.info-box p{ margin:0 0 .9rem; color: var(--text-muted); }
+
+/* FAQ */
+.faq-list{
+    max-width: 860px;
+    margin: 0 auto;
+    display:grid;
+    gap: .8rem;
+}
+.faq-item{
+    background:#fff;
+    border:1px solid #eef3fb;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    padding: .8rem 1rem;
+}
+.faq-item summary{
+    cursor:pointer;
+    font-weight: 650;
+    list-style:none;
+}
+.faq-item summary::-webkit-details-marker{ display:none; }
+.faq-content{
+    margin-top: .7rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+}
+
+/* Autres façons d’aider */
+.help-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+.help-card{
+    background:#fff;
+    border:1px solid #eef3fb;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    padding: 1.2rem 1.1rem;
+}
+.help-card h3{ margin:0 0 .4rem; }
+.help-card p{ margin:0; color: var(--text-muted); }
+
+.center-cta{
+    margin-top: 1.2rem;
+    display:flex;
+    justify-content:center;
+}
+
+/* Responsive */
+@media (max-width: 900px){
+    .impact-grid{ grid-template-columns: 1fr; }
+    .help-grid{ grid-template-columns: 1fr; }
+    .split{ grid-template-columns: 1fr; }
+}
+
+/* ===== Financements (remplace les anciens styles inline) ===== */
+
+.fp-flash{
+    padding: 12px 14px;
+}
+
+.fp-flash-success{
+    border-color: #c7f0d6;
+    background: #f0fff5;
+}
+
+.fp-flash-error{
+    border-color: #ffd0d0;
+    background: #fff5f5;
+}
+
+.fp-spacer-10{
+    height: 10px;
+}
+
+.fp-form-card{
+    margin-bottom: 12px;
+}
+
+.fp-grid-3{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.fp-span-2{
+    grid-column: span 2;
+}
+
+.fp-actions{
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+.fp-searchbar{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 12px 0;
+}
+
+.fp-search-input{
+    flex: 1;
+    min-width: 240px;
+}
+
+.fp-table-actions{
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.fp-table-body-padfix{
+    padding-top: 0;
+}
+
+.fp-pagination{
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.fp-pagination-info{
+    color: #6b7c98;
+}
+
+/* ===== Formulaire admin : remplace les styles inline ===== */
+
+.fo-flash{
+    padding: 12px 14px;
+}
+
+.fo-flash-success{
+    border-color: #c7f0d6;
+    background: #f0fff5;
+}
+
+.fo-flash-error{
+    border-color: #ffd0d0;
+    background: #fff5f5;
+}
+
+.fo-spacer-10{
+    height: 10px;
+}
+
+.fo-table-body-padfix{
+    padding-top: 0;
+}
+
+/* Barre filtres (recherche + select + boutons) */
+.fo-filters{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 12px 0;
+}
+
+.fo-filters-q{
+    flex: 1;
+    min-width: 240px;
+}
+
+.fo-filters-status{
+    min-width: 180px;
+}
+
+/* Cellule Message en ellipsis */
+.fo-msg-ellipsis{
+    max-width: 380px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Cellule Actions (select + bouton) */
+.fo-actions-cell{
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* Pagination */
+.fo-pagination{
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.fo-pagination-info{
+    color: #6b7c98;
+}
+/* ===== Missions (remplace les styles inline + <style> en bas) ===== */
+
+.ms-flash{
+    padding: 12px 14px;
+}
+.ms-flash-success{
+    border-color: #c7f0d6;
+    background: #f0fff5;
+}
+.ms-flash-error{
+    border-color: #ffd0d0;
+    background: #fff5f5;
+}
+.ms-spacer-10{
+    height: 10px;
+}
+
+.ms-form-card{
+    margin-bottom: 12px;
+}
+
+.ms-grid-3{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 12px;
+}
+.ms-span-2{ grid-column: span 2; }
+.ms-span-3{ grid-column: span 3; }
+
+.ms-actions{
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+.ms-searchbar{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 12px 0;
+}
+.ms-search-input{
+    flex: 1;
+    min-width: 240px;
+}
+
+.ms-table-actions{
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.ms-table-body-padfix{
+    padding-top: 0;
+}
+
+.ms-pagination{
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.ms-pagination-info{
+    color: #6b7c98;
+}
+
+/* (Optionnel) tu avais un textarea resize, on le remet proprement */
+.ms-textarea{
+    resize: vertical;
+}
+
+/* ===== Statistiques : barres dynamiques via variable CSS ===== */
+
+.stats-w{
+    width: var(--w, 0%);
+}
+
+/* ===== Evenements (USER) : remplace les styles inline ===== */
+
+.ev-mycard{
+    margin-bottom: 12px;
+}
+
+/* cellule alignée à droite */
+.ev-right{
+    text-align: right;
+}
+
+.ev-inline{
+    display: inline;
+}
+
+/* Liste des événements dispo */
+.ev-available-list{
+    display: grid;
+    gap: 10px;
+}
+
+/* Carte évènement dispo */
+.ev-eventcard{
+    padding: 14px;
+}
+
+.ev-eventhead{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.ev-title{
+    font-weight: 800;
+    font-size: 1.02rem;
+}
+
+.ev-sub{
+    color: #6b7c98;
+    font-size: 0.9rem;
+}
+
+.ev-media{
+    margin-top: 6px;
+    font-size: 0.9rem;
+}
+
+.ev-count{
+    text-align: right;
+}
+
+.ev-count-num{
+    font-weight: 800;
+}
+
+.ev-count-lbl{
+    color: #6b7c98;
+    font-size: 0.85rem;
+}
+
+.ev-spacer-10{
+    height: 10px;
+}
+
+.ev-already{
+    color: #16a34a;
+    font-weight: 700;
+}
+
+/* Form d'inscription */
+.ev-joinform{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.ev-role{
+    max-width: 220px;
+}
+
+/* ===== Missions (USER) : remplace les styles inline ===== */
+
+.ms-mycard{
+    margin-bottom: 12px;
+}
+
+.ms-right{
+    text-align: right;
+}
+
+.ms-inline{
+    display: inline;
+}
+
+/* Head de la section + tabs */
+.ms-head{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.ms-tabs{
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* Bloc titre + description dans la table */
+.ms-title{
+    font-weight: 700;
+}
+
+.ms-desc{
+    opacity: 0.8;
+    font-size: 0.92em;
+    margin-top: 4px;
+}
+
+/* Form inscription (dans cellule) */
+.ms-join{
+    display: inline;
+    min-width: 240px;
+}
+
+.ms-joinrow{
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.ms-role{
+    width: 160px;
+}
+
+.ms-comment{
+    margin-top: 8px;
+}
+/* ===== Profil (USER) : remplace les styles inline ===== */
+
+.pr-card{
+    max-width: 700px;
+}
+
+.pr-sep{
+    margin: 20px 0;
+}
+
+.pr-h3{
+    margin: 0 0 10px 0;
+}
+
+.pr-actions{
+    margin-top: 20px;
+}
+
+/* ===== Partenaires : ajustement mission-why ===== */
+.prtnr-why{
+    margin-left: 0;
+}
+
+/* ===== Carrousel partenaires ===== */
+.carrousel-container{
+    position: relative;
+    overflow: hidden;
+    padding: 2rem 0;
+    background: #fff;
+}
+
+.carrousel{
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    gap: 20px;
+}
+
+.carrousel a{
+    min-width: calc(25% - 20px);
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.carrousel img{
+    max-height: 80px;
+    width: auto;
+    filter: grayscale(100%);
+    transition: 0.3s;
+    opacity: 0.7;
+}
+
+.carrousel img:hover{
+    filter: grayscale(0%);
+    opacity: 1;
+}
+
+.carrousel-btn{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--blue);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+
+.prev{ left: 10px; }
+.next{ right: 10px; }
+
+.carrousel-dots{
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.carrousel-dots span{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: #ccc;
+    margin: 0 5px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.carrousel-dots span.active{
+    background: var(--orange);
+}
+
 
 

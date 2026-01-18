@@ -5,173 +5,202 @@
     <title>EGEE – Faire un Don</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="newcss.css">
-    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link rel="icon" type="image/png" href="assets/image/favicon.png">
 </head>
 
 <body>
 
 <?php
-$pageTitle = "Accueil - EGEE"; // Optionnel : titre dynamique
+$pageTitle = "Faire un don - EGEE";
 include('header.php');
 ?>
 
 <main>
 
-    <!-- HERO DON -->
+    <!-- HERO -->
     <section class="hero">
-        <div class="container hero-inner">
+        <div class="container hero-inner hero-single">
             <div class="hero-text">
-                <p class="hero-tag">Soutenir EGEE</p>
-                <h1>Votre générosité transforme des vies.</h1>
+                <span class="hero-tag">Soutenir EGEE</span>
+                <h1>Faire un don</h1>
                 <p class="hero-subtitle">
-                    Grâce à votre don, des milliers de jeunes bénéficient d’un accompagnement personnalisé,
-                    assuré par nos bénévoles expérimentés.
+                    Votre soutien permet à EGEE de renforcer son action : accompagner des jeunes,
+                    des porteurs de projet et des entreprises grâce à l’expérience des seniors.
                 </p>
 
                 <div class="hero-buttons">
-                    <a href="#don-form" class="btn btn-primary">Faire un don maintenant</a>
-                    <a href="#impact" class="btn btn-secondary">Voir l’impact</a>
+                    <a class="btn btn-donate btn-large"
+                       href="https://www.helloasso.com/associations/egee/formulaires/1"
+                       target="_blank" rel="noopener">
+                        Donner via HelloAsso
+                    </a>
+                    <a class="btn btn-outline btn-large" href="page_contact.php">Nous contacter</a>
                 </div>
 
-                <div class="hero-meta">
-                    <span>Dons déductibles des impôts*</span>
-                    <span>Un réseau partout en France</span>
+                <div class="trust-badges">
+                    <span class="trust-badge">Paiement sécurisé</span>
+                    <span class="trust-badge">Don en ligne (HelloAsso)</span>
+                    <span class="trust-badge">Reçu fiscal selon conditions</span>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <div class="hero-card">
+    <!-- IMPACT (3 cartes) -->
+    <section class="don-section">
+        <div class="container">
+            <div class="section-head">
                 <h2>À quoi sert votre don ?</h2>
-                <ul>
-                    <li><strong>Former</strong> nos bénévoles</li>
-                    <li><strong>Multiplier</strong> nos interventions scolaires</li>
-                    <li><strong>Créer</strong> des outils pour les jeunes</li>
-                </ul>
-                <p class="hero-note">
-                    *Selon la législation fiscale en vigueur.
+                <p>Des actions concrètes, mesurables, et utiles sur le terrain.</p>
+            </div>
+
+            <div class="impact-grid">
+                <article class="impact-card">
+                    <div class="impact-icon">🎓</div>
+                    <h3>Accompagnement des jeunes</h3>
+                    <p>Mentorat, aide à l’orientation, préparation aux entretiens, conseils CV.</p>
+                </article>
+
+                <article class="impact-card">
+                    <div class="impact-icon">🚀</div>
+                    <h3>Soutien aux porteurs de projet</h3>
+                    <p>Structuration, stratégie, pitch, réseau, retours d’expérience concrets.</p>
+                </article>
+
+                <article class="impact-card">
+                    <div class="impact-icon">🏢</div>
+                    <h3>Appui aux entreprises</h3>
+                    <p>Diagnostic, recommandations, expertise senior au service de la performance.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA CARD -->
+    <section class="don-page">
+        <div class="container">
+            <div class="don-page-card">
+                <h2>Accéder au formulaire HelloAsso</h2>
+                <p class="don-page-text">
+                    Le don se fait directement sur le formulaire officiel d’EGEE.
+                    Cela prend moins d’une minute.
                 </p>
+
+                <div class="don-page-actions">
+                    <a class="btn btn-donate btn-large"
+                       href="https://www.helloasso.com/associations/egee/formulaires/1"
+                       target="_blank" rel="noopener">
+                        Ouvrir le formulaire
+                    </a>
+                </div>
+
+                <div class="don-microcopy">
+
+                </div>
             </div>
         </div>
     </section>
-
-
-    <!-- IMPACT -->
-    <section class="actions" id="impact">
-        <div class="container">
-            <h2>Votre impact concret</h2>
-            <p class="section-intro">
-                Chaque don est une action directe pour l'avenir des jeunes.
-            </p>
-
-            <div class="cards-grid">
-
-                <article class="card">
-                    <p class="card-label">Jeunes</p>
-                    <h3>Accompagnement scolaire et professionnel</h3>
-                    <p>
-                        Simulation d’entretien, rédaction de CV, aide à l’orientation,
-                        préparation aux projets professionnels.
-                    </p>
-                </article>
-
-                <article class="card">
-                    <p class="card-label">Établissements</p>
-                    <h3>Interventions éducatives</h3>
-                    <p>
-                        Nos bénévoles interviennent dans les classes afin de transmettre
-                        leur savoir et favoriser la réussite scolaire.
-                    </p>
-                </article>
-
-                <article class="card">
-                    <p class="card-label">Bénévoles</p>
-                    <h3>Transmission d’expérience</h3>
-                    <p>
-                        Un espace pour partager leur carrière, leurs connaissances
-                        et transmettre leur savoir-faire.
-                    </p>
-                </article>
-
-            </div>
-        </div>
-    </section>
-
-
-    <!-- CHOIX DU DON -->
-    <section class="engagements" id="don-form">
-        <div class="container">
-            <h2>Choisissez votre type de don</h2>
-            <p class="section-intro">
-                Tous les dons contribuent directement à nos actions.
-            </p>
-
-            <div class="cards-grid">
-
-                <!-- Don ponctuel -->
-                <article class="card">
-                    <h3>Don ponctuel</h3>
-                    <p>
-                        Soutenez EGEE une fois, au montant que vous souhaitez.
-                    </p>
-                    <p style="color:#6b7280;margin-top:0.6rem;">
-                        Exemple : 20€, 50€, 100€...
-                    </p>
-                    <a href="#" class="btn btn-primary" style="margin-top:0.9rem;">Faire un don ponctuel</a>
-                </article>
-
-                <!-- Don mensuel -->
-                <article class="card">
-                    <h3>Don mensuel</h3>
-                    <p>
-                        Un soutien régulier permet de planifier nos actions sur le long terme.
-                    </p>
-                    <p style="color:#6b7280;margin-top:0.6rem;">
-                        Exemple : 10€/mois, 20€/mois...
-                    </p>
-                    <a href="#" class="btn btn-outline" style="margin-top:0.9rem;">Faire un don mensuel</a>
-                </article>
-
-                <!-- Mécénat -->
-                <article class="card">
-                    <h3>Mécénat d’entreprise</h3>
-                    <p>
-                        Impliquez votre entreprise dans une démarche solidaire et engagée.
-                    </p>
-                    <p style="color:#6b7280;margin-top:0.6rem;">
-                        Contact dédié pour les entreprises.
-                    </p>
-                    <a href="contact.html" class="btn btn-secondary" style="margin-top:0.9rem;">Nous contacter</a>
-                </article>
-
-            </div>
-        </div>
-    </section>
-
 
     <!-- TRANSPARENCE -->
-    <section class="rapport">
-        <div class="container rapport-inner">
-            <div>
-                <h2>Transparence & informations fiscales</h2>
-                <p>
-                    Chaque année, EGEE publie un rapport complet mettant en lumière l’utilisation des fonds,
-                    les actions menées et les résultats obtenus.
-                </p>
-                <p style="margin-top:0.7rem;">
-                    Vos dons peuvent être déductibles d’impôts selon votre situation personnelle.
-                </p>
+    <section class="don-section">
+        <div class="container">
+            <div class="split">
+                <div class="split-left">
+                    <h2>Transparence</h2>
+                    <p>
+                        Nous souhaitons que chaque donateur comprenne clairement l’utilité de son geste.
+                        Votre contribution aide à financer les actions, la logistique et l’organisation des programmes.
+                    </p>
+
+                    <ul class="check-list">
+                        <li>Suivi des actions et retours terrain</li>
+                        <li>Coordination et outils de gestion</li>
+                        <li>Événements & ateliers d’accompagnement</li>
+                    </ul>
+                </div>
+
+                <div class="split-right">
+                    <div class="info-box">
+                        <h3>Besoin d’un justificatif ?</h3>
+                        <p>
+                            Selon les conditions, un reçu peut être disponible. Pour toute question :
+                        </p>
+                        <a class="btn btn-outline" href="page_contact.php">Contacter EGEE</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="don-section faq">
+        <div class="container">
+            <div class="section-head">
+                <h2>Questions fréquentes</h2>
+                <p>Les réponses aux points les plus demandés.</p>
             </div>
 
-            <div class="rapport-buttons">
-                <a href="rapports/rapport-2024.pdf" class="btn btn-primary">Rapport 2024</a>
-                <a href="contact.html" class="btn btn-outline">Poser une question</a>
+            <div class="faq-list">
+                <details class="faq-item">
+                    <summary>Le don est-il sécurisé ?</summary>
+                    <div class="faq-content">
+                        Oui. Le paiement est géré par HelloAsso via une page sécurisée.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>Je peux donner quand je veux ?</summary>
+                    <div class="faq-content">
+                        Oui, vous pouvez faire un don à tout moment via le formulaire.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>Comment aider autrement qu’en donnant ?</summary>
+                    <div class="faq-content">
+                        Vous pouvez aussi relayer EGEE, participer à des événements, ou proposer votre aide / expertise.
+                        Écrivez-nous via la page contact.
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- AUTRES FAÇONS D’AIDER -->
+    <section class="don-section">
+        <div class="container">
+            <div class="section-head">
+                <h2>Vous pouvez aussi aider autrement</h2>
+                <p>Chaque geste compte, même sans don financier.</p>
+            </div>
+
+            <div class="help-grid">
+                <article class="help-card">
+                    <h3>📣 Partager</h3>
+                    <p>Parlez d’EGEE autour de vous : un simple partage peut aider énormément.</p>
+                </article>
+
+                <article class="help-card">
+                    <h3>🤝 S’engager</h3>
+                    <p>Vous souhaitez contribuer ? Écrivez-nous, on vous oriente selon vos disponibilités.</p>
+                </article>
+
+                <article class="help-card">
+                    <h3>🎯 Participer</h3>
+                    <p>Événements, ateliers, rencontres : rejoignez une action près de chez vous.</p>
+                </article>
+            </div>
+
+            <div class="center-cta">
+                <a class="btn btn-outline btn-large" href="page_contact.php">Proposer mon aide</a>
             </div>
         </div>
     </section>
 
 </main>
+
 <?php include('footer.php'); ?>
 
-<script src = "menuBuger.js"> </script>
-
+<script src="assets/js/menuBuger.js"></script>
 </body>
 </html>

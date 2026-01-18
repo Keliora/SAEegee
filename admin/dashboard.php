@@ -169,8 +169,8 @@ $missionsList = allRows($pdo, "
             <a class="dash-link" href="missions.php">Missions</a>
             <a class="dash-link" href="evenements.php">Événements</a>
             <a class="dash-link" href="presse.php">Presse</a>
-            <a class="dash-link" href="regions.php">Régions</a>
-            <a class="dash-link" href="partenaires.php">Partenaires</a>
+            <a class="dash-link" href="formulaire.php">Formulaires</a>
+
             <a class="dash-link" href="financements.php">Dons / Financements</a>
 
             <div class="dash-menu-section">OUTILS</div>
@@ -195,8 +195,10 @@ $missionsList = allRows($pdo, "
             <div class="dash-top-actions">
                 <div class="dash-date" id="dashDate"><?= date('d/m/Y') ?></div>
                 <button class="dash-btn" type="button" onclick="window.print()">Imprimer</button>
-                <button class="dash-btn dash-btn-primary" type="button" onclick="alert('Export à brancher (CSV/PDF)')">Export</button>
-            </div>
+                <a href="../login.php" class="btn-back">
+                    ← Retour
+                </a>
+                </div>
         </header>
 
 
@@ -236,7 +238,7 @@ $missionsList = allRows($pdo, "
                     <div class="dash-card-meta">Cette semaine</div>
                 </div>
 
-                <div class="dash-card-body" style="padding:12px 14px;">
+                <div class="dash-card-body" >
                     <canvas id="chartMissions7j" height="140"></canvas>
                 </div>
 
@@ -247,7 +249,7 @@ $missionsList = allRows($pdo, "
                     <div class="dash-card-meta">Soutiens (Soutenir + Mission)</div>
                 </div>
 
-                <div class="dash-card-body" style="padding:12px 14px;">
+                <div class="dash-card-body" ">
                     <canvas id="chartFin6m" height="140"></canvas>
                 </div>
             </div>
@@ -305,7 +307,7 @@ $missionsList = allRows($pdo, "
         </section>
 
 
-        <section class="dash-card dash-tablecard" style="margin-top:12px;">
+        <section class="dash-card dash-tablecard" ">
             <div class="dash-card-head">
                 <div class="dash-card-title">Missions récentes</div>
                 <div class="dash-card-meta">10 dernières</div>

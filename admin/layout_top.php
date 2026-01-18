@@ -34,7 +34,7 @@ $admin = $_SESSION['auth'] ?? null;
             <a class="admin-link <?= ($activeMenu ?? '')==='benevoles' ? 'is-active':'' ?>" href="/admin/benevoles.php">Bénévoles</a>
             <a class="admin-link <?= ($activeMenu ?? '')==='missions' ? 'is-active':'' ?>" href="/admin/missions.php">Missions</a>
             <a class="admin-link <?= ($activeMenu ?? '')==='events' ? 'is-active':'' ?>" href="/admin/evenements.php">Événements</a>
-            <a class="admin-link <?= ($activeMenu ?? '')==='partenaires' ? 'is-active':'' ?>" href="/admin/partenaires.php">Partenaires</a>
+            <a class="admin-link <?= ($activeMenu ?? '')==='formulaire' ? 'is-active':'' ?>" href="/admin/formulaire.php">Formulaire</a>
             <a class="admin-link <?= ($activeMenu ?? '')==='finances' ? 'is-active':'' ?>" href="/admin/financements.php">Dons / Financements</a>
 
             <div class="admin-nav-title">SESSION</div>

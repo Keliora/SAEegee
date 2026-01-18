@@ -139,8 +139,8 @@ $remplissage = $pdo->query("
             <a class="dash-link" href="missions.php">Missions</a>
             <a class="dash-link" href="evenements.php">Événements</a>
             <a class="dash-link" href="presse.php">Presse</a>
-            <a class="dash-link" href="regions.php">Régions</a>
-            <a class="dash-link" href="partenaires.php">Partenaires</a>
+            <a class="dash-link" href="formulaire.php">Formulaires</a>
+
             <a class="dash-link" href="financements.php">Dons / Financements</a>
 
             <div class="dash-menu-section">OUTILS</div>
@@ -168,7 +168,6 @@ $remplissage = $pdo->query("
         <header class="dash-topbar">
             <div>
                 <h1 class="dash-h1">Statistiques</h1>
-                <p class="dash-sub">Indicateurs clés + tendances (utile SAE/Data).</p>
             </div>
             <div class="dash-top-actions stats-top-actions">
                 <a class="dash-btn" href="export.php?type=benevoles">Export bénévoles</a>
@@ -192,11 +191,6 @@ $remplissage = $pdo->query("
                 <div class="stats-kpi-label">Missions</div>
                 <div class="stats-kpi-value"><?= (int)$kpi['missions'] ?></div>
                 <div class="stats-kpi-sub"><?= (int)$kpi['missions_a_venir'] ?> à venir</div>
-            </div>
-            <div class="dash-card stats-kpi-card">
-                <div class="stats-kpi-label">Partenaires</div>
-                <div class="stats-kpi-value"><?= (int)$kpi['partenaires'] ?></div>
-                <div class="stats-kpi-sub">référencés</div>
             </div>
             <div class="dash-card stats-kpi-card">
                 <div class="stats-kpi-label">Financements</div>
@@ -251,7 +245,7 @@ $remplissage = $pdo->query("
                 </div>
 
                 <div class="stats-progress">
-                    <div class="stats-progress-bar" style="width:<?= (float)$tauxPresence ?>%;"></div>
+                    <div class="stats-progress-bar stats-w" style="--w:<?= (float)$tauxPresence ?>%;"></div>
                 </div>
 
                 <div class="stats-presence-foot">
@@ -274,7 +268,7 @@ $remplissage = $pdo->query("
                                 <div class="stats-muted"><?= (int)$tv['nb'] ?> (<?= h($pct) ?>%)</div>
                             </div>
                             <div class="stats-progress-sm">
-                                <div class="stats-progress-bar-green" style="width:<?= (float)$pct ?>%;"></div>
+                                <div class="stats-progress-bar-green stats-w" style="--w:<?= (float)$pct ?>%;"></div>
                             </div>
                         </div>
                     <?php endforeach; endif; ?>
@@ -330,7 +324,7 @@ $remplissage = $pdo->query("
                                 <div class="stats-muted"><?= number_format((float)$fy['total'],2,',',' ') ?> €</div>
                             </div>
                             <div class="stats-progress-sm">
-                                <div class="stats-progress-bar-amber" style="width:<?= (float)$pct ?>%;"></div>
+                                <div class="stats-progress-bar-amber stats-w" style="--w:<?= (float)$pct ?>%;"></div>
                             </div>
                         </div>
                     <?php endforeach; endif; ?>
@@ -355,7 +349,7 @@ $remplissage = $pdo->query("
                                 <div class="stats-muted"><?= (int)$mc['nb'] ?></div>
                             </div>
                             <div class="stats-progress-sm">
-                                <div class="stats-progress-bar-purple" style="width:<?= (float)$pct ?>%;"></div>
+                                <div class="stats-progress-bar-purple stats-w" style="--w:<?= (float)$pct ?>%;"></div>
                             </div>
                         </div>
                     <?php endforeach; endif; ?>
@@ -390,7 +384,7 @@ $remplissage = $pdo->query("
                                 <td>
                                     <div class="stats-fill-row">
                                         <div class="stats-fill-track">
-                                            <div class="stats-fill-bar" style="width:<?= (float)$pctShow ?>%;"></div>
+                                            <div class="stats-fill-bar stats-w" style="--w:<?= (float)$pctShow ?>%;"></div>
                                         </div>
                                         <div class="stats-fill-pct">
                                             <?= $att > 0 ? h($pct) . '%' : '—' ?>

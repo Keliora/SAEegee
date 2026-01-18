@@ -14,6 +14,7 @@ DROP TABLE IF EXISTS Presse;
 DROP TABLE IF EXISTS Financement;
 DROP TABLE IF EXISTS Evenement;
 DROP TABLE IF EXISTS Benevole;
+DROP TABLE IF EXISTS Formulaire;
 
 SET FOREIGN_KEY_CHECKS = 1;
 
@@ -217,6 +218,24 @@ CREATE TABLE IF NOT EXISTS CompteAuth_EGEE (
                                                        ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+CREATE TABLE Formulaire (
+                            IdFormulaire INT NOT NULL AUTO_INCREMENT,
+                            Nom VARCHAR(80) NOT NULL,
+                            Email VARCHAR(120) NOT NULL,
+                            Objet VARCHAR(50) NOT NULL,
+                            Message TEXT NOT NULL,
+
+                            Statut ENUM('NOUVEAU','TRAITE','ARCHIVE') NOT NULL DEFAULT 'NOUVEAU',
+                            DateCreation DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+                            PRIMARY KEY (IdFormulaire),
+                            INDEX idx_form_date (DateCreation),
+                            INDEX idx_form_statut (Statut),
+                            INDEX idx_form_email (Email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
 ALTER TABLE Benevole
     ADD Role ENUM('USER','ADMIN') NOT NULL DEFAULT 'USER';
 
@@ -226,5 +245,5 @@ UPDATE Benevole SET Role='ADMIN' WHERE Email='john@demo.com';
 
 SELECT Email, Role FROM Benevole;
 
-
+UPDATE Benevole SET Role='ADMIN' WHERE Email='adamelkamili2006@gmail.com';
 

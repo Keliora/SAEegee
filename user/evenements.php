@@ -47,9 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 VALUES (:b, :e, :r, 0)
             ");
             $stmt->execute([
-                ':b' => $idBenevole,
-                ':e' => $idEvenement,
-                ':r' => $role
+                    ':b' => $idBenevole,
+                    ':e' => $idEvenement,
+                    ':r' => $role
             ]);
 
             $success = "✅ Inscription à l’événement réussie !";
@@ -153,7 +153,7 @@ $available = $availableStmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
         <?php endif; ?>
 
 
-        <section class="dash-card dash-tablecard" style="margin-bottom:12px;">
+        <section class="dash-card dash-tablecard ev-mycard">
             <div class="dash-card-head">
                 <div class="dash-card-title">Mes événements (inscriptions)</div>
                 <div class="dash-card-meta"><?= count($myEvents) ?> événement(s)</div>
@@ -181,8 +181,8 @@ $available = $availableStmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
                             <td><?= h(($e['DateEvenement'] ?? '—') . ' ' . ($e['HeureEvenement'] ?? '')) ?></td>
                             <td><?= h($e['Role'] ?? '—') ?></td>
                             <td><?= ((int)($e['EstPresent'] ?? 0) === 1) ? '✅' : '—' ?></td>
-                            <td style="text-align:right;">
-                                <form method="post" style="display:inline;">
+                            <td class="ev-right">
+                                <form method="post" class="ev-inline">
                                     <input type="hidden" name="action" value="leave">
                                     <input type="hidden" name="id_evenement" value="<?= (int)$e['IdEvenement'] ?>">
                                     <button class="dash-btn" type="submit" onclick="return confirm('Se désinscrire ?')">Se désinscrire</button>
@@ -202,45 +202,45 @@ $available = $availableStmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
                 <div class="dash-card-meta"><?= count($available) ?> affiché(s)</div>
             </div>
 
-            <div class="dash-card-body" style="display:grid; gap:10px;">
+            <div class="dash-card-body ev-available-list">
                 <?php if(empty($available)): ?>
                     <div class="dash-empty">Aucun événement disponible pour le moment.</div>
                 <?php else: foreach($available as $e):
                     $deja = (int)($e['dejaInscrit'] ?? 0) === 1;
                     $nbIns = (int)($e['nbInscrits'] ?? 0);
                     ?>
-                    <div class="dash-card" style="padding:14px;">
-                        <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;">
+                    <div class="dash-card ev-eventcard">
+                        <div class="ev-eventhead">
                             <div>
-                                <div style="font-weight:800; font-size:1.02rem;"><?= h($e['NomEvenement']) ?></div>
-                                <div style="color:#6b7c98; font-size:.9rem;">
+                                <div class="ev-title"><?= h($e['NomEvenement']) ?></div>
+                                <div class="ev-sub">
                                     <?= h($e['TypeEvenement'] ?? '—') ?> •
                                     <?= h($e['DateEvenement'] ?? '—') ?>
                                     <?= !empty($e['HeureEvenement']) ? (' • '.h($e['HeureEvenement'])) : '' ?>
                                 </div>
                                 <?php if (!empty($e['LienMediaEvenement'])): ?>
-                                    <div style="margin-top:6px; font-size:.9rem;">
+                                    <div class="ev-media">
                                         <a href="<?= h($e['LienMediaEvenement']) ?>" target="_blank" rel="noopener noreferrer">Lien / média</a>
                                     </div>
                                 <?php endif; ?>
                             </div>
 
-                            <div style="text-align:right;">
-                                <div style="font-weight:800;"><?= $nbIns ?></div>
-                                <div style="color:#6b7c98;font-size:.85rem;">inscrit(s)</div>
+                            <div class="ev-count">
+                                <div class="ev-count-num"><?= $nbIns ?></div>
+                                <div class="ev-count-lbl">inscrit(s)</div>
                             </div>
                         </div>
 
-                        <div style="height:10px"></div>
+                        <div class="ev-spacer-10"></div>
 
                         <?php if ($deja): ?>
-                            <div style="color:#16a34a;font-weight:700;">✅ Déjà inscrit</div>
+                            <div class="ev-already">✅ Déjà inscrit</div>
                         <?php else: ?>
-                            <form method="post" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+                            <form method="post" class="ev-joinform">
                                 <input type="hidden" name="action" value="join">
                                 <input type="hidden" name="id_evenement" value="<?= (int)$e['IdEvenement'] ?>">
 
-                                <select class="dash-input" name="role" style="max-width:220px;">
+                                <select class="dash-input ev-role" name="role">
                                     <option value="Participant">Participant</option>
                                     <option value="Accueil">Accueil</option>
                                     <option value="Logistique">Logistique</option>
@@ -258,8 +258,6 @@ $available = $availableStmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
 
     </main>
 </div>
-
-
 
 </body>
 </html>

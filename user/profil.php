@@ -52,13 +52,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $stmt = $pdo->prepare($sql);
             $stmt->execute([
-                ':ville' => $ville,
-                ':comp'  => $comp,
-                ':dom'   => $dom,
-                ':reg'   => $regime,
-                ':prof'  => $prof,
-                ':pwd'   => $hash,
-                ':id'    => $id
+                    ':ville' => $ville,
+                    ':comp'  => $comp,
+                    ':dom'   => $dom,
+                    ':reg'   => $regime,
+                    ':prof'  => $prof,
+                    ':pwd'   => $hash,
+                    ':id'    => $id
             ]);
         } else {
             $sql = "
@@ -73,12 +73,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $stmt = $pdo->prepare($sql);
             $stmt->execute([
-                ':ville' => $ville,
-                ':comp'  => $comp,
-                ':dom'   => $dom,
-                ':reg'   => $regime,
-                ':prof'  => $prof,
-                ':id'    => $id
+                    ':ville' => $ville,
+                    ':comp'  => $comp,
+                    ':dom'   => $dom,
+                    ':reg'   => $regime,
+                    ':prof'  => $prof,
+                    ':id'    => $id
             ]);
         }
 
@@ -113,7 +113,6 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 <div class="dash-shell">
 
-
     <aside class="dash-side">
         <div class="dash-side-top">
             <div class="dash-brand">
@@ -134,7 +133,6 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
         </nav>
     </aside>
 
-
     <main class="dash-main">
 
         <header class="dash-topbar">
@@ -152,7 +150,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
             <div class="dash-alert dash-alert-error"><?= h($error) ?></div>
         <?php endif; ?>
 
-        <form method="post" class="dash-card" style="max-width:700px;">
+        <form method="post" class="dash-card pr-card">
             <div class="dash-card-head">
                 <div class="dash-card-title">Informations personnelles</div>
             </div>
@@ -190,9 +188,9 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
                     </div>
                 </div>
 
-                <hr style="margin:20px 0">
+                <hr class="pr-sep">
 
-                <h3>Changer le mot de passe</h3>
+                <h3 class="pr-h3">Changer le mot de passe</h3>
 
                 <div class="dash-form-grid">
                     <div>
@@ -206,7 +204,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
                     </div>
                 </div>
 
-                <div style="margin-top:20px;">
+                <div class="pr-actions">
                     <button class="dash-btn dash-btn-primary" type="submit">
                         Enregistrer les modifications
                     </button>
@@ -217,7 +215,6 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     </main>
 </div>
-
 
 </body>
 </html>

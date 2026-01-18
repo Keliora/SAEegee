@@ -1,18 +1,83 @@
-<!doctype html>
+<?php
+require_once __DIR__ . '/init.php';
+
+function h($v) {
+    return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
+}
+
+/**
+ * TRAITEMENT DU FORMULAIRE (dans la même page)
+ * - Enregistre dans la table Formulaire
+ * - Met un flash success/error
+ * - Redirige vers #contact (évite le resubmit F5)
+ */
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $nom     = trim($_POST['nom'] ?? '');
+    $email   = trim($_POST['email'] ?? '');
+    $objet   = trim($_POST['objet'] ?? 'information');
+    $message = trim($_POST['message'] ?? '');
+
+    $allowedObjets = ['information','partenariat','jeune','entreprise'];
+
+    if ($nom === '' || $email === '' || $message === '') {
+        $_SESSION['flash_error'] = "Merci de remplir tous les champs obligatoires.";
+        header("Location: page_contact.php#contact");
+        exit;
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $_SESSION['flash_error'] = "Adresse email invalide.";
+        header("Location: page_contact.php#contact");
+        exit;
+    }
+
+    if (!in_array($objet, $allowedObjets, true)) {
+        $objet = 'information';
+    }
+
+    try {
+        $stmt = $pdo->prepare("
+            INSERT INTO Formulaire (Nom, Email, Objet, Message)
+            VALUES (:nom, :email, :objet, :message)
+        ");
+        $stmt->execute([
+                ':nom'     => $nom,
+                ':email'   => $email,
+                ':objet'   => $objet,
+                ':message' => $message
+        ]);
+
+        $_SESSION['flash_success'] = "Merci ! Votre message a bien été envoyé.";
+        header("Location: page_contact.php#contact");
+        exit;
+
+    } catch (PDOException $e) {
+        $_SESSION['flash_error'] = "Erreur lors de l’envoi. Réessayez plus tard.";
+        header("Location: page_contact.php#contact");
+        exit;
+    }
+}
+
+// Messages flash (affichage)
+$flashSuccess = $_SESSION['flash_success'] ?? null;
+$flashError   = $_SESSION['flash_error'] ?? null;
+unset($_SESSION['flash_success'], $_SESSION['flash_error']);
+?>
+
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta charset="utf-8">
     <title>Contact — EGEE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link rel="icon" type="image/png" href="assets/image/favicon.png">
     <link rel="stylesheet" href="newcss.css">
 </head>
 <body>
 
-<?php
-$pageTitle = "Accueil - EGEE"; // Optionnel : titre dynamique
-include('header.php');
-?>
+<?php include 'header.php'; ?>
 
 <main>
     <section class="hero">
@@ -52,13 +117,13 @@ include('header.php');
         </div>
     </section>
 
-
     <!-- BANDEAU NOUS CONNAÎTRE -->
     <section class="bandeau" id="mission">
         <div class="container">
             <span>- -- Où nous trouver partout en France -- -</span>
         </div>
     </section>
+
     <div class="regions-presentation">
         <div class="france-map">
             <svg  id="Calque_1" xmlns="http://www.w3.org/2000/svg"  x="0px" y="0px"
@@ -1869,13 +1934,27 @@ include('header.php');
         270.641,71.547 271.226,71.318 271.304,71.25 "/>
             </svg>
         </div>
-        <section class="container shadow-section section-formulaire">
+
+        <section class="container shadow-section section-formulaire" id="contact">
             <div class="form-header">
                 <h2 class="siege-title">Envoyez-nous un message</h2>
                 <p class="section-intro">Une question ? Un projet ? N'hésitez pas à nous contacter via le formulaire ci-dessous.</p>
             </div>
 
-            <form action="traitement_contact.php" method="POST" class="contact-form">
+            <?php if ($flashSuccess): ?>
+                <div class="flash flash-success" style="margin:16px 0; padding:12px 14px; border-radius:12px; background:#f0fff5; border:1px solid rgba(0,0,0,.08);">
+                    ✅ <?= h($flashSuccess) ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($flashError): ?>
+                <div class="flash flash-error" style="margin:16px 0; padding:12px 14px; border-radius:12px; background:#fff5f5; border:1px solid rgba(0,0,0,.08);">
+                    ❌ <?= h($flashError) ?>
+                </div>
+            <?php endif; ?>
+
+            <!-- IMPORTANT : action vers la même page, plus besoin de traitement_contact.php -->
+            <form action="page_contact.php#contact" method="POST" class="contact-form">
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="nom">Nom complet</label>
@@ -1907,38 +1986,39 @@ include('header.php');
                 </div>
             </form>
         </section>
+
         <section class="section-grey">
             <div class="container">
                 <h2 class="region-title">Contacter l'une de nos régions</h2>
                 <p class="region-subtitle">Cliquez sur l'une des régions pour accéder à sa page contact.</p>
 
                 <div class="cards-grid region-grid">
-                    <a  class="card region-card">
+                    <a class="card region-card">
                         <div class="region-name">Auvergne-Rhône-Alpes</div>
                         <img src="assets/image/logo-regions/logo-auvergne-rhone-alpes.png" alt="Logo Auvergne-Rhône-Alpes" class="region-logo">
                     </a>
 
-                    <a  class="card region-card">
+                    <a class="card region-card">
                         <div class="region-name">Bourgogne-Franche-Comté</div>
                         <img src="assets/image/logo-regions/logo-bourgogne-franche-comte.png" alt="Logo Bourgogne-Franche-Comté" class="region-logo">
                     </a>
 
-                    <a  class="card region-card">
+                    <a class="card region-card">
                         <div class="region-name">Bretagne</div>
                         <img src="assets/image/logo-regions/logo-bretagne.png" alt="Logo Bretagne" class="region-logo">
                     </a>
 
-                    <a  class="card region-card">
+                    <a class="card region-card">
                         <div class="region-name">Centre-Val de Loire</div>
                         <img src="assets/image/logo-regions/logo-centre-val-de-loire.png" alt="Logo Centre-Val de Loire" class="region-logo">
                     </a>
 
-                    <a  class="card region-card">
+                    <a class="card region-card">
                         <div class="region-name">Corse</div>
                         <img src="assets/image/logo-regions/logo-corse.png" alt="Logo Corse" class="region-logo">
                     </a>
 
-                    <a  class="card region-card">
+                    <a class="card region-card">
                         <div class="region-name">Grand Est</div>
                         <img src="assets/image/logo-regions/logo-grand-est.png" alt="Logo Grand Est" class="region-logo">
                     </a>
@@ -1948,22 +2028,22 @@ include('header.php');
                         <img src="assets/image/logo-regions/logo-hauts-de-france.png" alt="Logo Hauts-de-France" class="region-logo">
                     </a>
 
-                    <a  class="card region-card">
+                    <a class="card region-card">
                         <div class="region-name">Île-de-France</div>
                         <img src="assets/image/logo-regions/logo-ile-de-france.png" alt="Logo Île-de-France" class="region-logo">
                     </a>
 
-                    <a  class="card region-card">
+                    <a class="card region-card">
                         <div class="region-name">Normandie</div>
                         <img src="assets/image/logo-regions/logo-normandie.png" alt="Logo Normandie" class="region-logo">
                     </a>
 
-                    <a  class="card region-card">
+                    <a class="card region-card">
                         <div class="region-name">Nouvelle-Aquitaine</div>
                         <img src="assets/image/logo-regions/logo-nouvelle-aquitaine.png" alt="Logo Nouvelle-Aquitaine" class="region-logo">
                     </a>
 
-                    <a  class="card region-card">
+                    <a class="card region-card">
                         <div class="region-name">Occitanie</div>
                         <img src="assets/image/logo-regions/logo-occitanie.png" alt="Logo Occitanie" class="region-logo">
                     </a>
@@ -1981,10 +2061,10 @@ include('header.php');
             </div>
         </section>
     </div>
-    
+
 </main>
 
 <?php include('footer.php'); ?>
-<script src = "menuBuger.js"> </script>
+<script src="assets/js/menuBuger.js"></script>
 </body>
 </html>

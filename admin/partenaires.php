@@ -1,13 +1,26 @@
 <?php
 require_once __DIR__ . "/../init.php";
 
-
-if (empty($_SESSION['auth'])) { $_SESSION['login_error']="Vous devez être connecté."; header("Location: ../login.php"); exit; }
-if (($_SESSION['auth']['role'] ?? '') !== 'ADMIN') { $_SESSION['login_error']="Accès réservé à l'administration."; header("Location: ../index.php"); exit; }
-
+if (empty($_SESSION['auth'])) {
+    $_SESSION['login_error'] = "Vous devez être connecté.";
+    header("Location: ../login.php");
+    exit;
+}
+if (($_SESSION['auth']['role'] ?? '') !== 'ADMIN') {
+    $_SESSION['login_error'] = "Accès réservé à l'administration.";
+    header("Location: ../index.php");
+    exit;
+}
 
 function h($v){ return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); }
-function flash_get($k){ if(!empty($_SESSION[$k])){ $v=$_SESSION[$k]; unset($_SESSION[$k]); return $v; } return null; }
+function flash_get($k){
+    if(!empty($_SESSION[$k])){
+        $v=$_SESSION[$k];
+        unset($_SESSION[$k]);
+        return $v;
+    }
+    return null;
+}
 
 if (empty($_SESSION['csrf'])) $_SESSION['csrf'] = bin2hex(random_bytes(16));
 $csrf = $_SESSION['csrf'];
@@ -18,118 +31,150 @@ $adminEmail = $_SESSION['auth']['email'] ?? 'admin@site.com';
 $mode = $_GET['mode'] ?? '';
 $id   = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-
+/* =========================
+   POST ACTIONS
+========================= */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (($_POST['csrf'] ?? '') !== $csrf) { $_SESSION['flash_error']="Sécurité: token invalide."; header("Location: partenaires.php"); exit; }
+
+    if (($_POST['csrf'] ?? '') !== $csrf) {
+        $_SESSION['flash_error'] = "Sécurité: token invalide.";
+        header("Location: partenaires.php");
+        exit;
+    }
+
     $action = $_POST['action'] ?? '';
 
     if ($action === 'delete') {
         $delId = (int)($_POST['id'] ?? 0);
-        if ($delId <= 0) { $_SESSION['flash_error']="ID invalide."; header("Location: partenaires.php"); exit; }
+        if ($delId <= 0) {
+            $_SESSION['flash_error'] = "ID invalide.";
+            header("Location: partenaires.php");
+            exit;
+        }
 
         try {
-            $st = $pdo->prepare("DELETE FROM Partenaire WHERE IdPartenaire=:id");
-            $st->execute([':id'=>$delId]);
-            $_SESSION['flash_success']="Partenaire supprimé.";
+            $st = $pdo->prepare("DELETE FROM Partenaire WHERE IdPartenaire = :id");
+            $st->execute([':id' => $delId]);
+            $_SESSION['flash_success'] = "Partenaire supprimé.";
         } catch (PDOException $e) {
-            // FK possible via Soutenir / Implante
-            $_SESSION['flash_error']="Suppression impossible (liens existants).";
+            $_SESSION['flash_error'] = "Suppression impossible (partenaire lié à des financements / événements / etc.).";
         }
-        header("Location: partenaires.php"); exit;
+        header("Location: partenaires.php");
+        exit;
     }
 
     if ($action === 'save') {
         $formId = (int)($_POST['id'] ?? 0);
 
-        $NomPartenaire  = trim($_POST['NomPartenaire'] ?? '');
-        $PrenomPartenaire = trim($_POST['PrenomPartenaire'] ?? '');
-        $TypePartenaire = trim($_POST['TypePartenaire'] ?? '');
-        $TypeSoutienPartenaire = trim($_POST['TypeSoutienPartenaire'] ?? '');
-        $ContactPrincipalPartenaire = trim($_POST['ContactPrincipalPartenaire'] ?? '');
-        $IdFinancement = trim($_POST['IdFinancement'] ?? '');
+        $NomPartenaire       = trim($_POST['NomPartenaire'] ?? '');
+        $TypePartenaire      = trim($_POST['TypePartenaire'] ?? '');
+        $EmailPartenaire     = trim($_POST['EmailPartenaire'] ?? '');
+        $TelephonePartenaire = trim($_POST['TelephonePartenaire'] ?? '');
+        $AdressePartenaire   = trim($_POST['AdressePartenaire'] ?? '');
+        $SiteWebPartenaire   = trim($_POST['SiteWebPartenaire'] ?? '');
+        $NotePartenaire      = trim($_POST['NotePartenaire'] ?? '');
 
         if ($NomPartenaire === '') {
-            $_SESSION['flash_error']="Le nom du partenaire est obligatoire.";
-            header("Location: partenaires.php".($formId ? "?mode=edit&id=".$formId : "")); exit;
+            $_SESSION['flash_error'] = "Le nom du partenaire est obligatoire.";
+            header("Location: partenaires.php" . ($formId ? "?mode=edit&id=".$formId : ""));
+            exit;
         }
 
-        $IdFinancement = ($IdFinancement !== '' ? (int)$IdFinancement : null);
-        if ($IdFinancement === null || $IdFinancement <= 0) {
-            $_SESSION['flash_error']="IdFinancement est obligatoire (FK).";
-            header("Location: partenaires.php".($formId ? "?mode=edit&id=".$formId : "")); exit;
+        if ($EmailPartenaire !== '' && !filter_var($EmailPartenaire, FILTER_VALIDATE_EMAIL)) {
+            $_SESSION['flash_error'] = "Email partenaire invalide.";
+            header("Location: partenaires.php" . ($formId ? "?mode=edit&id=".$formId : ""));
+            exit;
         }
 
+        // CREATE
         if ($formId === 0) {
             try {
                 $st = $pdo->prepare("
                     INSERT INTO Partenaire
-                    (NomPartenaire, PrenomPartenaire, TypePartenaire, TypeSoutienPartenaire, ContactPrincipalPartenaire, IdFinancement)
-                    VALUES (:Nom,:Prenom,:Type,:Soutien,:Contact,:IdFin)
+                    (NomPartenaire, TypePartenaire, EmailPartenaire, TelephonePartenaire, AdressePartenaire, SiteWebPartenaire, NotePartenaire)
+                    VALUES
+                    (:Nom,:Type,:Email,:Tel,:Adr,:Web,:Note)
                 ");
                 $st->execute([
-                        ':Nom'=>$NomPartenaire,
-                        ':Prenom'=>($PrenomPartenaire!==''?$PrenomPartenaire:null),
-                        ':Type'=>($TypePartenaire!==''?$TypePartenaire:null),
-                        ':Soutien'=>($TypeSoutienPartenaire!==''?$TypeSoutienPartenaire:null),
-                        ':Contact'=>($ContactPrincipalPartenaire!==''?$ContactPrincipalPartenaire:null),
-                        ':IdFin'=>$IdFinancement
+                        ':Nom'  => $NomPartenaire,
+                        ':Type' => ($TypePartenaire!==''?$TypePartenaire:null),
+                        ':Email'=> ($EmailPartenaire!==''?$EmailPartenaire:null),
+                        ':Tel'  => ($TelephonePartenaire!==''?$TelephonePartenaire:null),
+                        ':Adr'  => ($AdressePartenaire!==''?$AdressePartenaire:null),
+                        ':Web'  => ($SiteWebPartenaire!==''?$SiteWebPartenaire:null),
+                        ':Note' => ($NotePartenaire!==''?$NotePartenaire:null),
                 ]);
-                $_SESSION['flash_success']="Partenaire ajouté.";
-                header("Location: partenaires.php"); exit;
+                $_SESSION['flash_success'] = "Partenaire ajouté.";
+                header("Location: partenaires.php");
+                exit;
             } catch (PDOException $e) {
-                $_SESSION['flash_error']="Erreur SQL (IdFinancement invalide ?).";
-                header("Location: partenaires.php"); exit;
+                $_SESSION['flash_error'] = "Erreur SQL lors de l'ajout.";
+                header("Location: partenaires.php");
+                exit;
             }
         }
 
+        // UPDATE
         try {
             $st = $pdo->prepare("
                 UPDATE Partenaire SET
                     NomPartenaire=:Nom,
-                    PrenomPartenaire=:Prenom,
                     TypePartenaire=:Type,
-                    TypeSoutienPartenaire=:Soutien,
-                    ContactPrincipalPartenaire=:Contact,
-                    IdFinancement=:IdFin
+                    EmailPartenaire=:Email,
+                    TelephonePartenaire=:Tel,
+                    AdressePartenaire=:Adr,
+                    SiteWebPartenaire=:Web,
+                    NotePartenaire=:Note
                 WHERE IdPartenaire=:Id
             ");
             $st->execute([
-                    ':Nom'=>$NomPartenaire,
-                    ':Prenom'=>($PrenomPartenaire!==''?$PrenomPartenaire:null),
-                    ':Type'=>($TypePartenaire!==''?$TypePartenaire:null),
-                    ':Soutien'=>($TypeSoutienPartenaire!==''?$TypeSoutienPartenaire:null),
-                    ':Contact'=>($ContactPrincipalPartenaire!==''?$ContactPrincipalPartenaire:null),
-                    ':IdFin'=>$IdFinancement,
-                    ':Id'=>$formId
+                    ':Nom'  => $NomPartenaire,
+                    ':Type' => ($TypePartenaire!==''?$TypePartenaire:null),
+                    ':Email'=> ($EmailPartenaire!==''?$EmailPartenaire:null),
+                    ':Tel'  => ($TelephonePartenaire!==''?$TelephonePartenaire:null),
+                    ':Adr'  => ($AdressePartenaire!==''?$AdressePartenaire:null),
+                    ':Web'  => ($SiteWebPartenaire!==''?$SiteWebPartenaire:null),
+                    ':Note' => ($NotePartenaire!==''?$NotePartenaire:null),
+                    ':Id'   => $formId
             ]);
-            $_SESSION['flash_success']="Partenaire mis à jour.";
-            header("Location: partenaires.php"); exit;
+            $_SESSION['flash_success'] = "Partenaire mis à jour.";
+            header("Location: partenaires.php");
+            exit;
         } catch (PDOException $e) {
-            $_SESSION['flash_error']="Erreur SQL (IdFinancement invalide ?).";
-            header("Location: partenaires.php?mode=edit&id=".$formId); exit;
+            $_SESSION['flash_error'] = "Erreur SQL lors de la mise à jour.";
+            header("Location: partenaires.php?mode=edit&id=".$formId);
+            exit;
         }
     }
 }
 
-
+/* =========================
+   EDIT MODE
+========================= */
 $edit = null;
 if ($mode === 'edit' && $id > 0) {
     $st = $pdo->prepare("SELECT * FROM Partenaire WHERE IdPartenaire=:id LIMIT 1");
     $st->execute([':id'=>$id]);
     $edit = $st->fetch(PDO::FETCH_ASSOC) ?: null;
-    if (!$edit) { $_SESSION['flash_error']="Partenaire introuvable."; header("Location: partenaires.php"); exit; }
+    if (!$edit) {
+        $_SESSION['flash_error'] = "Partenaire introuvable.";
+        header("Location: partenaires.php");
+        exit;
+    }
 }
 
+/* =========================
+   SEARCH + PAGINATION
+========================= */
 $q = trim($_GET['q'] ?? '');
 $page = max(1, (int)($_GET['p'] ?? 1));
 $perPage = 10;
-$offset = ($page-1)*$perPage;
+$offset = ($page - 1) * $perPage;
 
 $where = "";
 $params = [];
-
 if ($q !== '') {
-    $where = "WHERE (NomPartenaire LIKE :q OR TypePartenaire LIKE :q OR ContactPrincipalPartenaire LIKE :q)";
+    $where = "WHERE (NomPartenaire LIKE :q OR TypePartenaire LIKE :q OR EmailPartenaire LIKE :q)";
     $params[':q'] = "%$q%";
 }
 
@@ -139,7 +184,7 @@ $total = (int)($st->fetchColumn() ?: 0);
 $totalPages = max(1, (int)ceil($total / $perPage));
 
 $st = $pdo->prepare("
-    SELECT IdPartenaire, NomPartenaire, TypePartenaire, TypeSoutienPartenaire, ContactPrincipalPartenaire, IdFinancement
+    SELECT IdPartenaire, NomPartenaire, TypePartenaire, EmailPartenaire, TelephonePartenaire, SiteWebPartenaire
     FROM Partenaire
     $where
     ORDER BY IdPartenaire DESC
@@ -147,9 +192,6 @@ $st = $pdo->prepare("
 ");
 $st->execute($params);
 $rows = $st->fetchAll(PDO::FETCH_ASSOC) ?: [];
-
-
-$finList = $pdo->query("SELECT IdFinancement, TypeFinancement, MontantFinancement, AnneeFinancement FROM Financement ORDER BY IdFinancement DESC")->fetchAll(PDO::FETCH_ASSOC) ?: [];
 
 $flashSuccess = flash_get('flash_success');
 $flashError   = flash_get('flash_error');
@@ -163,8 +205,8 @@ $flashError   = flash_get('flash_error');
     <link rel="stylesheet" href="../newcss.css">
 </head>
 <body>
-<div class="dash-shell">
 
+<div class="dash-shell">
 
     <aside class="dash-side">
         <div class="dash-side-top">
@@ -187,7 +229,7 @@ $flashError   = flash_get('flash_error');
             <a class="dash-link" href="missions.php">Missions</a>
             <a class="dash-link" href="evenements.php">Événements</a>
             <a class="dash-link" href="presse.php">Presse</a>
-            <a class="dash-link" href="regions.php">Régions</a>
+            <a class="dash-link" href="formulaire.php">Formulaires</a>
             <a class="dash-link is-active" href="partenaires.php">Partenaires</a>
             <a class="dash-link" href="financements.php">Dons / Financements</a>
 
@@ -195,7 +237,6 @@ $flashError   = flash_get('flash_error');
             <a class="dash-link" href="export.php?type=benevoles">Export CSV • Bénévoles</a>
             <a class="dash-link" href="export.php?type=missions">Export CSV • Missions</a>
             <a class="dash-link" href="export.php?type=evenements">Export CSV • Événements</a>
-
 
             <div class="dash-menu-section">SESSION</div>
             <a class="dash-link" href="../logout.php">Déconnexion</a>
@@ -212,12 +253,12 @@ $flashError   = flash_get('flash_error');
         </div>
     </aside>
 
-
     <main class="dash-main">
+
         <header class="dash-topbar">
             <div>
                 <h1 class="dash-h1">Gestion des partenaires</h1>
-                <p class="dash-sub">CRUD + recherche + pagination (FK vers Financement).</p>
+                <p class="dash-sub">Ajouter, modifier, rechercher et gérer les partenaires.</p>
             </div>
             <div class="dash-top-actions">
                 <a class="dash-btn dash-btn-primary" href="partenaires.php">+ Nouveau partenaire</a>
@@ -225,19 +266,21 @@ $flashError   = flash_get('flash_error');
         </header>
 
         <?php if ($flashSuccess): ?>
-            <div class="dash-card" style="padding:12px 14px; border-color:#c7f0d6; background:#f0fff5;">✅ <?= h($flashSuccess) ?></div>
-            <div style="height:10px"></div>
+            <div class="dash-card dash-flash dash-flash-success">✅ <?= h($flashSuccess) ?></div>
+            <div class="dash-spacer-10"></div>
         <?php endif; ?>
 
         <?php if ($flashError): ?>
-            <div class="dash-card" style="padding:12px 14px; border-color:#ffd0d0; background:#fff5f5;">❌ <?= h($flashError) ?></div>
-            <div style="height:10px"></div>
+            <div class="dash-card dash-flash dash-flash-error">❌ <?= h($flashError) ?></div>
+            <div class="dash-spacer-10"></div>
         <?php endif; ?>
 
-
-        <section class="dash-card" style="margin-bottom:12px;">
+        <!-- FORM -->
+        <section class="dash-card dash-mb-12">
             <div class="dash-card-head">
-                <div class="dash-card-title"><?= $edit ? "Modifier le partenaire #".(int)$edit['IdPartenaire'] : "Ajouter un partenaire" ?></div>
+                <div class="dash-card-title">
+                    <?= $edit ? "Modifier le partenaire #".(int)$edit['IdPartenaire'] : "Ajouter un partenaire" ?>
+                </div>
                 <div class="dash-card-meta"><?= $edit ? "Mode édition" : "Mode création" ?></div>
             </div>
 
@@ -247,50 +290,44 @@ $flashError   = flash_get('flash_error');
                     <input type="hidden" name="action" value="save">
                     <input type="hidden" name="id" value="<?= $edit ? (int)$edit['IdPartenaire'] : 0 ?>">
 
-                    <div style="display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:12px;">
-                        <div style="grid-column: span 2;">
+                    <div class="dash-form-grid">
+                        <div>
                             <label>Nom *</label>
                             <input class="dash-input" name="NomPartenaire" value="<?= h($edit['NomPartenaire'] ?? '') ?>" required>
                         </div>
+
                         <div>
-                            <label>Prénom</label>
-                            <input class="dash-input" name="PrenomPartenaire" value="<?= h($edit['PrenomPartenaire'] ?? '') ?>">
+                            <label>Type</label>
+                            <input class="dash-input" name="TypePartenaire" value="<?= h($edit['TypePartenaire'] ?? '') ?>" placeholder="Entreprise / Institution / ...">
                         </div>
 
                         <div>
-                            <label>Type partenaire</label>
-                            <input class="dash-input" name="TypePartenaire" value="<?= h($edit['TypePartenaire'] ?? '') ?>">
-                        </div>
-                        <div>
-                            <label>Type soutien</label>
-                            <input class="dash-input" name="TypeSoutienPartenaire" value="<?= h($edit['TypeSoutienPartenaire'] ?? '') ?>">
-                        </div>
-                        <div>
-                            <label>Contact principal</label>
-                            <input class="dash-input" name="ContactPrincipalPartenaire" value="<?= h($edit['ContactPrincipalPartenaire'] ?? '') ?>">
+                            <label>Email</label>
+                            <input class="dash-input" name="EmailPartenaire" value="<?= h($edit['EmailPartenaire'] ?? '') ?>" placeholder="contact@...">
                         </div>
 
-                        <div style="grid-column: span 3;">
-                            <label>Financement associé (IdFinancement) *</label>
-                            <select class="dash-input" name="IdFinancement" required>
-                                <option value="">— Choisir —</option>
-                                <?php
-                                $selected = (string)($edit['IdFinancement'] ?? '');
-                                foreach ($finList as $f):
-                                    $label = "#".$f['IdFinancement']." • ".($f['TypeFinancement'] ?? '—')." • ".number_format((float)($f['MontantFinancement'] ?? 0),2,',',' ')."€ • ".($f['AnneeFinancement'] ?? '');
-                                    ?>
-                                    <option value="<?= (int)$f['IdFinancement'] ?>" <?= ((string)$f['IdFinancement'] === $selected) ? 'selected' : '' ?>>
-                                        <?= h($label) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                            <div style="margin-top:6px; color:#6b7c98; font-size:.85rem;">
-                                Si tu n’as aucun financement, crée d’abord dans “Dons/Financements”.
-                            </div>
+                        <div>
+                            <label>Téléphone</label>
+                            <input class="dash-input" name="TelephonePartenaire" value="<?= h($edit['TelephonePartenaire'] ?? '') ?>">
+                        </div>
+
+                        <div class="dash-col-span-2">
+                            <label>Adresse</label>
+                            <input class="dash-input" name="AdressePartenaire" value="<?= h($edit['AdressePartenaire'] ?? '') ?>">
+                        </div>
+
+                        <div>
+                            <label>Site web</label>
+                            <input class="dash-input" name="SiteWebPartenaire" value="<?= h($edit['SiteWebPartenaire'] ?? '') ?>" placeholder="https://...">
+                        </div>
+
+                        <div class="dash-col-span-3">
+                            <label>Note</label>
+                            <textarea class="dash-input dash-textarea" name="NotePartenaire" rows="3"><?= h($edit['NotePartenaire'] ?? '') ?></textarea>
                         </div>
                     </div>
 
-                    <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
+                    <div class="dash-form-actions">
                         <button class="dash-btn dash-btn-primary" type="submit"><?= $edit ? "Enregistrer" : "Créer" ?></button>
                         <?php if ($edit): ?><a class="dash-btn" href="partenaires.php">Annuler</a><?php endif; ?>
                     </div>
@@ -298,16 +335,16 @@ $flashError   = flash_get('flash_error');
             </div>
         </section>
 
-
+        <!-- LIST -->
         <section class="dash-card dash-tablecard">
             <div class="dash-card-head">
                 <div class="dash-card-title">Liste des partenaires</div>
                 <div class="dash-card-meta"><?= (int)$total ?> résultat(s)</div>
             </div>
 
-            <div class="dash-card-body" style="padding-top:0;">
-                <form method="get" action="partenaires.php" style="display:flex; gap:10px; flex-wrap:wrap; margin:12px 0;">
-                    <input class="dash-input" style="flex:1; min-width:240px;" name="q" value="<?= h($q) ?>" placeholder="Rechercher (nom, type, contact)">
+            <div class="dash-card-body dash-pt-0">
+                <form method="get" action="partenaires.php" class="dash-searchbar">
+                    <input class="dash-input dash-search-input" name="q" value="<?= h($q) ?>" placeholder="Rechercher (nom, type, email)">
                     <button class="dash-btn" type="submit">Rechercher</button>
                     <?php if ($q !== ''): ?><a class="dash-btn" href="partenaires.php">Reset</a><?php endif; ?>
                 </form>
@@ -319,43 +356,60 @@ $flashError   = flash_get('flash_error');
                             <th>ID</th>
                             <th>Nom</th>
                             <th>Type</th>
-                            <th>Soutien</th>
-                            <th>Contact</th>
-                            <th>IdFinancement</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                            <th>Site</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <?php if(empty($rows)): ?>
+                        <?php if (empty($rows)): ?>
                             <tr><td colspan="7" class="dash-td-empty">Aucun partenaire trouvé.</td></tr>
-                        <?php else: foreach($rows as $p): ?>
-                            <tr>
-                                <td><?= (int)$p['IdPartenaire'] ?></td>
-                                <td><?= h($p['NomPartenaire'] ?? '') ?></td>
-                                <td><?= h($p['TypePartenaire'] ?? '—') ?></td>
-                                <td><?= h($p['TypeSoutienPartenaire'] ?? '—') ?></td>
-                                <td><?= h($p['ContactPrincipalPartenaire'] ?? '—') ?></td>
-                                <td><?= (int)$p['IdFinancement'] ?></td>
-                                <td style="display:flex; gap:8px; flex-wrap:wrap;">
-                                    <a class="dash-btn" href="partenaires.php?mode=edit&id=<?= (int)$p['IdPartenaire'] ?>">Modifier</a>
-                                    <form method="post" action="partenaires.php" onsubmit="return confirm('Supprimer ce partenaire ?');">
-                                        <input type="hidden" name="csrf" value="<?= h($csrf) ?>">
-                                        <input type="hidden" name="action" value="delete">
-                                        <input type="hidden" name="id" value="<?= (int)$p['IdPartenaire'] ?>">
-                                        <button class="dash-btn" type="submit">Supprimer</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        <?php endforeach; endif; ?>
+                        <?php else: ?>
+                            <?php foreach ($rows as $p): ?>
+                                <tr>
+                                    <td><?= (int)$p['IdPartenaire'] ?></td>
+                                    <td><?= h($p['NomPartenaire'] ?? '') ?></td>
+                                    <td><?= h($p['TypePartenaire'] ?? '—') ?></td>
+                                    <td>
+                                        <?php if (!empty($p['EmailPartenaire'])): ?>
+                                            <a href="mailto:<?= h($p['EmailPartenaire']) ?>"><?= h($p['EmailPartenaire']) ?></a>
+                                        <?php else: ?>
+                                            —
+                                        <?php endif; ?>
+                                    </td>
+                                    <td><?= h($p['TelephonePartenaire'] ?? '—') ?></td>
+                                    <td>
+                                        <?php if (!empty($p['SiteWebPartenaire'])): ?>
+                                            <a href="<?= h($p['SiteWebPartenaire']) ?>" target="_blank" rel="noopener">Voir</a>
+                                        <?php else: ?>
+                                            —
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="dash-row-actions">
+                                        <a class="dash-btn" href="partenaires.php?mode=edit&id=<?= (int)$p['IdPartenaire'] ?>">Modifier</a>
+
+                                        <form method="post" action="partenaires.php" onsubmit="return confirm('Supprimer ce partenaire ?');">
+                                            <input type="hidden" name="csrf" value="<?= h($csrf) ?>">
+                                            <input type="hidden" name="action" value="delete">
+                                            <input type="hidden" name="id" value="<?= (int)$p['IdPartenaire'] ?>">
+                                            <button class="dash-btn" type="submit">Supprimer</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
 
                 <?php if ($totalPages > 1): ?>
-                    <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; align-items:center;">
+                    <div class="dash-pagination">
                         <a class="dash-btn" href="partenaires.php?p=1<?= $q!=='' ? '&q='.urlencode($q) : '' ?>">« Début</a>
                         <a class="dash-btn" href="partenaires.php?p=<?= max(1,$page-1) ?><?= $q!=='' ? '&q='.urlencode($q) : '' ?>">‹ Préc</a>
-                        <span style="color:#6b7c98;">Page <?= (int)$page ?> / <?= (int)$totalPages ?></span>
+
+                        <span class="dash-pagination-info">Page <?= (int)$page ?> / <?= (int)$totalPages ?></span>
+
                         <a class="dash-btn" href="partenaires.php?p=<?= min($totalPages,$page+1) ?><?= $q!=='' ? '&q='.urlencode($q) : '' ?>">Suiv ›</a>
                         <a class="dash-btn" href="partenaires.php?p=<?= (int)$totalPages ?><?= $q!=='' ? '&q='.urlencode($q) : '' ?>">Fin »</a>
                     </div>
@@ -363,9 +417,9 @@ $flashError   = flash_get('flash_error');
 
             </div>
         </section>
+
     </main>
 </div>
-
 
 </body>
 </html>

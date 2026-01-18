@@ -3,9 +3,7 @@ require_once __DIR__ . "/admin_guard.php";
 $activeMenu = "overview";
 $pageTitle = "Admin — Vue d’ensemble";
 
-
 $nbBenevoles = (int)$pdo->query("SELECT COUNT(*) FROM Benevole")->fetchColumn();
-
 
 $nbMissionsMois = (int)$pdo->query("
     SELECT COUNT(*) FROM Mission
@@ -14,20 +12,17 @@ $nbMissionsMois = (int)$pdo->query("
       AND YEAR(DateHeureDebut) = YEAR(CURDATE())
 ")->fetchColumn();
 
-
 $nbEvents30 = (int)$pdo->query("
     SELECT COUNT(*) FROM Evenement
     WHERE DateEvenement IS NOT NULL
       AND DateEvenement BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)
 ")->fetchColumn();
 
-
 $totalFinancementAnnee = (float)$pdo->query("
     SELECT COALESCE(SUM(MontantFinancement),0)
     FROM Financement
     WHERE AnneeFinancement = YEAR(CURDATE())
 ")->fetchColumn();
-
 
 $events = $pdo->query("
     SELECT NomEvenement, DateEvenement, TypeEvenement
@@ -36,7 +31,6 @@ $events = $pdo->query("
     ORDER BY DateEvenement ASC
     LIMIT 5
 ")->fetchAll();
-
 
 $missions = $pdo->query("
     SELECT TitreMission, CategorieMission, DateHeureDebut, DateHeureFin
@@ -51,25 +45,25 @@ include __DIR__ . "/layout_top.php";
 <div class="admin-kpis">
     <div class="admin-card kpi">
         <div class="kpi-title">Bénévoles (total)</div>
-        <div class="kpi-value"><?= $nbBenevoles ?></div>
+        <div class="kpi-value"><?= (int)$nbBenevoles ?></div>
         <div class="kpi-sub">Base bénévoles</div>
     </div>
 
     <div class="admin-card kpi">
         <div class="kpi-title">Missions (ce mois)</div>
-        <div class="kpi-value"><?= $nbMissionsMois ?></div>
+        <div class="kpi-value"><?= (int)$nbMissionsMois ?></div>
         <div class="kpi-sub">Planifiées + en cours</div>
     </div>
 
     <div class="admin-card kpi">
         <div class="kpi-title">Événements (30 jours)</div>
-        <div class="kpi-value"><?= $nbEvents30 ?></div>
+        <div class="kpi-value"><?= (int)$nbEvents30 ?></div>
         <div class="kpi-sub">À venir</div>
     </div>
 
     <div class="admin-card kpi">
         <div class="kpi-title">Financements (année)</div>
-        <div class="kpi-value"><?= number_format($totalFinancementAnnee, 0, ',', ' ') ?> €</div>
+        <div class="kpi-value"><?= number_format((float)$totalFinancementAnnee, 0, ',', ' ') ?> €</div>
         <div class="kpi-sub">Somme des financements</div>
     </div>
 </div>
@@ -80,14 +74,16 @@ include __DIR__ . "/layout_top.php";
             <h3>Activité • Missions (7 jours)</h3>
             <span class="muted">Cette semaine</span>
         </div>
+
         <div class="admin-placeholder">
             (Graphique à brancher plus tard — on a déjà l’emplacement)
         </div>
 
-        <div class="admin-card-header" style="margin-top:18px;">
+        <div class="admin-card-header admin-mt-18">
             <h3>Finances • 6 derniers mois</h3>
             <span class="muted">Dons / Financements</span>
         </div>
+
         <div class="admin-placeholder">
             (Graphique à brancher plus tard)
         </div>
@@ -106,30 +102,31 @@ include __DIR__ . "/layout_top.php";
                 <?php foreach ($events as $e): ?>
                     <div class="admin-list-item">
                         <div>
-                            <div class="admin-list-title"><?= htmlspecialchars($e['NomEvenement']) ?></div>
+                            <div class="admin-list-title"><?= htmlspecialchars($e['NomEvenement'] ?? '', ENT_QUOTES, 'UTF-8') ?></div>
                             <div class="muted">
-                                <?= htmlspecialchars($e['TypeEvenement'] ?? '') ?>
+                                <?= htmlspecialchars($e['TypeEvenement'] ?? '', ENT_QUOTES, 'UTF-8') ?>
                             </div>
                         </div>
                         <div class="admin-pill">
-                            <?= htmlspecialchars($e['DateEvenement'] ?? '') ?>
+                            <?= htmlspecialchars($e['DateEvenement'] ?? '', ENT_QUOTES, 'UTF-8') ?>
                         </div>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>
 
-        <div class="admin-card-header" style="margin-top:18px;">
+        <div class="admin-card-header admin-mt-18">
             <h3>Top partenaires</h3>
             <span class="muted">Dons + financements</span>
         </div>
+
         <div class="admin-placeholder">
             (À brancher quand tu auras la logique “montant par partenaire”)
         </div>
     </div>
 </div>
 
-<div class="admin-card" style="margin-top:16px;">
+<div class="admin-card admin-mt-16">
     <div class="admin-card-header">
         <h3>Missions en cours / planifiées</h3>
         <span class="muted">Dernières</span>
@@ -148,10 +145,10 @@ include __DIR__ . "/layout_top.php";
         <?php else: ?>
             <?php foreach ($missions as $m): ?>
                 <div class="admin-row">
-                    <div><?= htmlspecialchars($m['TitreMission']) ?></div>
-                    <div class="muted"><?= htmlspecialchars($m['CategorieMission'] ?? '') ?></div>
-                    <div><?= htmlspecialchars($m['DateHeureDebut'] ?? '-') ?></div>
-                    <div><?= htmlspecialchars($m['DateHeureFin'] ?? '-') ?></div>
+                    <div><?= htmlspecialchars($m['TitreMission'] ?? '', ENT_QUOTES, 'UTF-8') ?></div>
+                    <div class="muted"><?= htmlspecialchars($m['CategorieMission'] ?? '', ENT_QUOTES, 'UTF-8') ?></div>
+                    <div><?= htmlspecialchars($m['DateHeureDebut'] ?? '-', ENT_QUOTES, 'UTF-8') ?></div>
+                    <div><?= htmlspecialchars($m['DateHeureFin'] ?? '-', ENT_QUOTES, 'UTF-8') ?></div>
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>
